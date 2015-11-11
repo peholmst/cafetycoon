@@ -7,7 +7,6 @@ public class Cafe extends BaseEntity {
     private final String name;
     private final String address;
     private final LatLon coordinates;
-    // TODO Coordinates
 
     public Cafe(String name, String address, LatLon coordinates) {
         this.name = name;
@@ -25,5 +24,10 @@ public class Cafe extends BaseEntity {
 
     public LatLon getCoordinates() {
         return coordinates;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Cafe{name='%s', address='%s'}", name, address);
     }
 }

@@ -52,4 +52,9 @@ public class SaleEvent extends BaseDomainEvent {
     public BigDecimal getTotalIncome() {
         return drink.getPrice().multiply(new BigDecimal(quantity));
     }
+
+    @Override
+    public String toString() {
+        return String.format("SaleEvent{cafe=%s, drink=%s, quantity=%d}", cafe, drink, quantity);
+    }
 }

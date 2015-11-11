@@ -18,4 +18,9 @@ public abstract class BaseDomainEvent extends BaseEntity {
     public Instant getInstant() {
         return instant;
     }
+
+    @Override
+    public String toString() {
+        return String.format("BaseDomainEvent{id=%d, instant=%s}", getId(), instant);
+    }
 }

@@ -42,5 +42,10 @@ public abstract class BaseEntity implements Serializable {
         return (int) (id ^ (id >>> 32));
     }
 
+    @Override
+    public String toString() {
+        return String.format("BaseEntity{id=%d}", id);
+    }
+
     private static final AtomicLong nextId = new AtomicLong(1);
 }

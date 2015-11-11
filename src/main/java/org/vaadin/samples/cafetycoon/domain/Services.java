@@ -1,10 +1,12 @@
 package org.vaadin.samples.cafetycoon.domain;
 
-import com.google.common.eventbus.EventBus;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+
+import com.google.common.eventbus.EventBus;
+
+import java.math.BigDecimal;
 
 @WebListener
 public class Services implements ServletContextListener {
@@ -18,6 +20,10 @@ public class Services implements ServletContextListener {
 
     private StockService stockService;
     private CafeStatusService cafeStatusService;
+    private SalesService salesService;
+    private BalanceService balanceService;
+
+    private SalesGenerator salesGenerator;
 
     public EventBus getEventBus() {
         return eventBus;
@@ -39,13 +45,26 @@ public class Services implements ServletContextListener {
         return cafeStatusService;
     }
 
+    public SalesService getSalesService() {
+        return salesService;
+    }
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         eventBus = new EventBus();
+
         cafeRepository = new CafeRepository();
-        stockService = new StockService(eventBus);
         coffeeDrinkRepository = new CoffeeDrinkRepository();
+
+        stockService = new StockService(eventBus);
+        // Set up initial stock
+        cafeRepository.getCafes().forEach(cafe -> stockService.restock(cafe, new BigDecimal("100")));
+
         cafeStatusService = new CafeStatusService(eventBus, coffeeDrinkRepository, cafeRepository, stockService);
+        salesService = new SalesService(eventBus, stockService);
+        balanceService = new BalanceService(eventBus);
+
+        salesGenerator = new SalesGenerator(cafeRepository, coffeeDrinkRepository, salesService);
         INSTANCE = this;
     }
 

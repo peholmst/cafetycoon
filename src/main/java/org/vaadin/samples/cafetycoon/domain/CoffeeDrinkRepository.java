@@ -21,7 +21,7 @@ public class CoffeeDrinkRepository {
         this.coffeDrinks = Collections.unmodifiableList(coffeeDrinks);
     }
 
-    public List<CoffeeDrink> getCoffeDrinks() {
+    public List<CoffeeDrink> getCoffeeDrinks() {
         return coffeDrinks;
     }
 }

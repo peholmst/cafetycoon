@@ -6,9 +6,12 @@ import java.util.Map;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 
 public class StockService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(StockService.class);
     private final Map<Cafe, BigDecimal> stock = new HashMap<>();
     private final EventBus eventBus;
 
@@ -22,6 +25,7 @@ public class StockService {
     }
 
     public synchronized void restock(Cafe cafe, BigDecimal beanUnits) {
+        LOGGER.info("Restocking {} with {} bean units", cafe, beanUnits);
         final RestockEvent event = new RestockEvent(cafe, beanUnits);
         BigDecimal currentStock = stock.getOrDefault(cafe, BigDecimal.ZERO);
         BigDecimal newStock = currentStock.add(beanUnits);
@@ -35,5 +39,6 @@ public class StockService {
         BigDecimal currentStock = stock.getOrDefault(cafe, BigDecimal.ZERO);
         BigDecimal newStock = currentStock.subtract(saleEvent.getConsumedBeanUnits());
         stock.put(cafe, newStock);
+        LOGGER.info("New stock of {} is {}", cafe, newStock);
     }
 }
