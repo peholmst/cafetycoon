@@ -1,5 +1,6 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard;
 
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.OverviewModel;
 
 import com.vaadin.navigator.View;
@@ -11,18 +12,20 @@ public class Dashboard extends HorizontalSplitPanel implements View {
     public static final String VIEW_NAME = "dashboard";
 
     private OverviewModel model;
+    private CafeSelectionModel selectionModel;
     private CafeTableView cafeTableView;
     private CafeMapView cafeMapView;
     private CafeDetailsView cafeDetailsView;
 
     public Dashboard() {
         model = new OverviewModel();
+        selectionModel = new CafeSelectionModel();
 
         setSizeFull();
-        cafeTableView = new CafeTableView(model);
+        cafeTableView = new CafeTableView(model, selectionModel);
         setFirstComponent(cafeTableView);
 
-        cafeMapView = new CafeMapView(model);
+        cafeMapView = new CafeMapView(model, selectionModel);
         setSecondComponent(cafeMapView);
 
         setSplitPosition(400, Unit.PIXELS);

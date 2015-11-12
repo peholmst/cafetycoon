@@ -10,8 +10,10 @@ import java.util.Optional;
 import org.vaadin.samples.cafetycoon.domain.Cafe;
 import org.vaadin.samples.cafetycoon.domain.CafeStatus;
 import org.vaadin.samples.cafetycoon.domain.Services;
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.OverviewModel;
 
+import com.vaadin.data.Property;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapMarker;
 import com.vaadin.ui.CustomComponent;
@@ -19,45 +21,54 @@ import com.vaadin.ui.CustomComponent;
 public class CafeMapView extends CustomComponent {
 
     private GoogleMap map;
-    private Map<Cafe, GoogleMapMarker> markers;
+    private Map<Cafe, GoogleMapMarker> cafeToMarkerMap;
+    private Map<GoogleMapMarker, Cafe> markerToCafeMap;
     private OverviewModel model;
-    private PropertyChangeListener cafeStatusUpdatedListener = this::cafeStatusUpdated;
+    private CafeSelectionModel selectionModel;
+    private PropertyChangeListener cafeStatusListener = this::cafeStatusUpdated;
+    private Property.ValueChangeListener cafeSelectionListener = this::cafeSelectionChanged;
 
-    public CafeMapView(OverviewModel model) {
+    public CafeMapView(OverviewModel model, CafeSelectionModel selectionModel) {
         map = new GoogleMap(null, null, null);
+        map.addMarkerClickListener(this::markerClicked);
         map.setSizeFull();
         setCompositionRoot(map);
         setSizeFull();
 
-        markers = new HashMap<>();
+        cafeToMarkerMap = new HashMap<>();
+        markerToCafeMap = new HashMap<>();
 
         this.model = model;
+        this.selectionModel = selectionModel;
     }
 
     private void refresh(Cafe cafe) {
-        GoogleMapMarker marker = markers.remove(cafe);
+        GoogleMapMarker marker = cafeToMarkerMap.remove(cafe);
         if (marker != null) {
             map.removeMarker(marker);
+            markerToCafeMap.remove(marker);
         }
         Optional<OverviewModel.CafeStatusAndIncomeDTO> statusAndIncome = model.getCurrentStatusAndIncome(cafe);
         if (statusAndIncome.isPresent()) {
             marker = createMarker(cafe, statusAndIncome.get().getStatus());
             map.addMarker(marker);
-            markers.put(cafe, marker);
+            cafeToMarkerMap.put(cafe, marker);
+            markerToCafeMap.put(marker, cafe);
         }
     }
 
     private void remove(Cafe cafe) {
-        GoogleMapMarker marker = markers.get(cafe);
+        GoogleMapMarker marker = cafeToMarkerMap.remove(cafe);
         if (marker != null) {
             map.removeMarker(marker);
-
+            markerToCafeMap.remove(marker);
         }
     }
 
     private void refreshAll() {
-        markers.values().forEach(map::removeMarker);
-        markers.clear();
+        cafeToMarkerMap.values().forEach(map::removeMarker);
+        cafeToMarkerMap.clear();
+        markerToCafeMap.clear();
         Services.getInstance().getCafeRepository().getCafes().forEach(this::refresh);
     }
 
@@ -95,16 +106,32 @@ public class CafeMapView extends CustomComponent {
         }
     }
 
+    private void cafeSelectionChanged(Property.ValueChangeEvent event) {
+        Cafe selectedCafe = selectionModel.getSelection().getValue();
+        if (selectedCafe != null) {
+            map.setCenter(selectedCafe.getCoordinates());
+        }
+    }
+
+    private void markerClicked(GoogleMapMarker clickedMarker) {
+        Cafe cafe = markerToCafeMap.get(clickedMarker);
+        if (cafe != null) {
+            selectionModel.getSelection().setValue(cafe);
+        }
+    }
+
     @Override
     public void attach() {
         super.attach();
-        model.addPropertyChangeListener(OverviewModel.PROP_CURRENT_STATUS_AND_INCOME, cafeStatusUpdatedListener);
+        model.addPropertyChangeListener(OverviewModel.PROP_CURRENT_STATUS_AND_INCOME, cafeStatusListener);
+        selectionModel.getSelection().addValueChangeListener(cafeSelectionListener);
         refreshAll();
     }
 
     @Override
     public void detach() {
-        model.removePropertyChangeListener(OverviewModel.PROP_CURRENT_STATUS_AND_INCOME, cafeStatusUpdatedListener);
+        selectionModel.getSelection().removeValueChangeListener(cafeSelectionListener);
+        model.removePropertyChangeListener(OverviewModel.PROP_CURRENT_STATUS_AND_INCOME, cafeStatusListener);
         super.detach();
     }
 }

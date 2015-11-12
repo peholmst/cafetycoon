@@ -5,7 +5,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 
+import com.vaadin.data.Property;
+import com.vaadin.event.SelectionEvent;
+import org.vaadin.samples.cafetycoon.domain.Cafe;
 import org.vaadin.samples.cafetycoon.domain.CafeStatus;
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.OverviewModel;
 import org.vaadin.samples.cafetycoon.ui.utils.MoneyConverter;
 import org.vaadin.samples.cafetycoon.ui.utils.MoneyUtils;
@@ -24,6 +28,7 @@ public class CafeTableView extends VerticalLayout {
     private static final String COL_STATUS = "status";
 
     private OverviewModel model;
+    private CafeSelectionModel selectionModel;
     private Label balance;
     private Label income;
     private Grid cafeGrid;
@@ -32,7 +37,7 @@ public class CafeTableView extends VerticalLayout {
     private final PropertyChangeListener incomeUpdatedListener = this::incomeUpdated;
     private final PropertyChangeListener cafeStatusUpdated = this::cafeStatusUpdated;
 
-    public CafeTableView(OverviewModel model) {
+    public CafeTableView(OverviewModel model, CafeSelectionModel selectionModel) {
         setSizeFull();
         setSpacing(true);
         setMargin(true);
@@ -52,10 +57,12 @@ public class CafeTableView extends VerticalLayout {
         cafeGrid = new Grid(container);
         cafeGrid.setSizeFull();
         cafeGrid.getColumn(COL_24INCOME).setConverter(new MoneyConverter());
+        cafeGrid.addSelectionListener(this::cafeSelectedInGrid);
         addComponent(cafeGrid);
         setExpandRatio(cafeGrid, 1.0f);
 
         this.model = model;
+        this.selectionModel = selectionModel;
     }
 
     @Override
@@ -64,6 +71,7 @@ public class CafeTableView extends VerticalLayout {
         model.addPropertyChangeListener(OverviewModel.PROP_TOTAL_BALANCE, balanceUpdatedListener);
         model.addPropertyChangeListener(OverviewModel.PROP_TOTAL_INCOME_24H, incomeUpdatedListener);
         model.addPropertyChangeListener(OverviewModel.PROP_CURRENT_STATUS_AND_INCOME, cafeStatusUpdated);
+        selectionModel.getSelection().addValueChangeListener(this::cafeSelectionChanged);
         // Update the UI with latest model state
         balanceUpdated(null);
         incomeUpdated(null);
@@ -75,6 +83,7 @@ public class CafeTableView extends VerticalLayout {
         model.removePropertyChangeListener(OverviewModel.PROP_TOTAL_BALANCE, balanceUpdatedListener);
         model.removePropertyChangeListener(OverviewModel.PROP_TOTAL_INCOME_24H, incomeUpdatedListener);
         model.removePropertyChangeListener(OverviewModel.PROP_CURRENT_STATUS_AND_INCOME, cafeStatusUpdated);
+        selectionModel.getSelection().removeValueChangeListener(this::cafeSelectionChanged);
         super.detach();
     }
 
@@ -118,6 +127,14 @@ public class CafeTableView extends VerticalLayout {
                 updateContainerItem(item, dto);
             }
         }
+    }
+
+    private void cafeSelectedInGrid(SelectionEvent event) {
+        selectionModel.getSelection().setValue((Cafe) cafeGrid.getSelectedRow());
+    }
+
+    private void cafeSelectionChanged(Property.ValueChangeEvent event) {
+        cafeGrid.select(selectionModel.getSelection().getValue());
     }
 
     @SuppressWarnings("unchecked")
