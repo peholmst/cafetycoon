@@ -49,6 +49,10 @@ public class Services implements ServletContextListener {
         return salesService;
     }
 
+    public BalanceService getBalanceService() {
+        return balanceService;
+    }
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         eventBus = new EventBus();
@@ -58,7 +62,7 @@ public class Services implements ServletContextListener {
 
         stockService = new StockService(eventBus);
         // Set up initial stock
-        cafeRepository.getCafes().forEach(cafe -> stockService.restock(cafe, new BigDecimal("100")));
+        cafeRepository.getCafes().forEach(cafe -> stockService.restock(cafe, new BigDecimal("500")));
 
         cafeStatusService = new CafeStatusService(eventBus, coffeeDrinkRepository, cafeRepository, stockService);
         salesService = new SalesService(eventBus, stockService);

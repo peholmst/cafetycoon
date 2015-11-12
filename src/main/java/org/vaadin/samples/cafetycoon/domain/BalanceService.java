@@ -41,4 +41,12 @@ public class BalanceService {
         return balances.getOrDefault(cafe, BigDecimal.ZERO);
     }
 
+    public synchronized BigDecimal getCurrentTotalBalance() {
+        BigDecimal sum = BigDecimal.ZERO;
+        for (BigDecimal value : balances.values()) {
+            sum = sum.add(value);
+        }
+        return sum;
+    }
+
 }

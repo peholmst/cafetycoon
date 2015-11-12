@@ -76,6 +76,18 @@ public class SalesService {
         return sum;
     }
 
+    public synchronized BigDecimal getTotal24hIncome() {
+        BigDecimal sum = BigDecimal.ZERO;
+        Set<Cafe> cafes;
+        synchronized (this) {
+            cafes = new HashSet<>(salesEvents24h.keySet());
+        }
+        for (Cafe cafe : cafes) {
+            sum = sum.add(get24hIncome(cafe));
+        }
+        return sum;
+    }
+
     public static class OutOfStockException extends Exception {
     }
 }
