@@ -1,13 +1,15 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard;
 
+import com.vaadin.ui.CssLayout;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.OverviewModel;
+import org.vaadin.samples.cafetycoon.ui.utils.TitledElement;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.HorizontalSplitPanel;
 
-public class Dashboard extends HorizontalSplitPanel implements View {
+public class Dashboard extends HorizontalSplitPanel implements View, TitledElement {
 
     public static final String VIEW_NAME = "dashboard";
 
@@ -23,15 +25,21 @@ public class Dashboard extends HorizontalSplitPanel implements View {
 
         setSizeFull();
         cafeTableView = new CafeTableView(model, selectionModel);
-        setFirstComponent(cafeTableView);
 
         cafeMapView = new CafeMapView(model, selectionModel);
-        setSecondComponent(cafeMapView);
 
+        cafeDetailsView = new CafeDetailsView(selectionModel);
+
+        setFirstComponent(cafeTableView);
+
+        CssLayout mapAndDetailsLayout = new CssLayout();
+        mapAndDetailsLayout.setSizeFull();
+        mapAndDetailsLayout.addStyleName("map-and-details-layout");
+        mapAndDetailsLayout.addComponent(cafeMapView);
+        mapAndDetailsLayout.addComponent(cafeDetailsView);
+
+        setSecondComponent(mapAndDetailsLayout);
         setSplitPosition(400, Unit.PIXELS);
-
-        // cafeDetailsView = new CafeDetailsView();
-        // addComponent(cafeDetailsView);
     }
 
     @Override
@@ -49,5 +57,10 @@ public class Dashboard extends HorizontalSplitPanel implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
 
+    }
+
+    @Override
+    public String getTitle() {
+        return "Dashboard";
     }
 }

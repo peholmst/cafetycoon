@@ -20,6 +20,7 @@ public class CafeRepository {
         cafes.add(new Cafe("San Lorenzo", "15600 Hesperian Blvd, San Lorenzo", new LatLon(37.686916, -122.129718)));
         cafes.add(new Cafe("Palo Alto", "2675 Middlefield Rd, Palo Alto", new LatLon(37.434028, -122.129547)));
         cafes.add(new Cafe("Union City", "1707 Decoto Rd, Union City", new LatLon(37.589401, -122.021768)));
+        cafes.add(new Cafe("Alcatraz", "Alcatraz Island, San Fransisco", new LatLon(37.826978, -122.422955)));
 
         this.cafes = Collections.unmodifiableList(cafes);
     }

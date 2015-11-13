@@ -17,6 +17,7 @@ import com.vaadin.data.Property;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapMarker;
 import com.vaadin.ui.CustomComponent;
+import org.vaadin.teemu.VaadinIcons;
 
 public class CafeMapView extends CustomComponent {
 
@@ -29,6 +30,7 @@ public class CafeMapView extends CustomComponent {
     private Property.ValueChangeListener cafeSelectionListener = this::cafeSelectionChanged;
 
     public CafeMapView(OverviewModel model, CafeSelectionModel selectionModel) {
+        addStyleName("cafe-map-view");
         map = new GoogleMap(null, null, null);
         map.addMarkerClickListener(this::markerClicked);
         map.setSizeFull();

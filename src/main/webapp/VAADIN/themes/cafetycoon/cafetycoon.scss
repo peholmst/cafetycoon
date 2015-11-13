@@ -1,7 +1,7 @@
 // Global variable overrides. Must be declared before importing Valo.
 
 // Defines the plaintext font size, weight and family. Font size affects general component sizing.
-//$v-font-size: 16px;
+$v-font-size: 14px;
 //$v-font-weight: 300;
 //$v-font-family: "Open Sans", sans-serif;
 
@@ -45,5 +45,138 @@
 @mixin cafetycoon {
   @include valo;
 
-  // Insert your own theme rules here
+  .header {
+    height: 60px;
+    background-color: #5995E9;
+    position: relative;
+
+    .menu-button, .menu-button.v-pressed {
+      border: none;
+      background: transparent;
+      color: white;
+      box-shadow: none;
+      position: absolute;
+      left: 0;
+      bottom: 5px;
+    }
+
+    .view-title {
+      color: white;
+      font-size: 25px;
+      position: absolute;
+      bottom: 4px;
+      left: 170px;
+    }
+  }
+
+  .menu {
+    width: 170px;
+
+    .v-icon {
+      color: #EE7C08;
+    }
+  }
+
+  .cafe-table-view {
+    background: white;
+
+    .v-caption-balance, .v-caption-income {
+      text-transform: uppercase;
+      color: #5F9DF7;
+    }
+
+    .balance, .income {
+      text-align: right;
+      font-size: 20px;
+      border-top: 1px solid #5F9DF7;
+    }
+
+    .cafes {
+      background: transparent;
+
+      .v-grid-tablewrapper {
+        border: none;
+      }
+      .v-grid-header {
+        text-transform: uppercase;
+
+        th {
+          border-left: none;
+          color: gray;
+          background: transparent;
+        }
+      }
+      .v-grid-row-stripe > td {
+        background-color: transparent;
+      }
+      .v-grid-row > td {
+        border: none;
+      }
+      .v-grid-row-selected > .v-grid-cell {
+        background: #5F9DF7;
+        color: white;
+      }
+      .cafe-status-RUNNING {
+        color: #5F9DF7;
+        text-transform: uppercase;
+      }
+      .cafe-status-SERVING_COFFEE {
+        color: green;
+        text-transform: uppercase;
+      }
+      .cafe-status-OUT_OF_STOCK {
+        color: #E61E6E;
+        text-transform: uppercase;
+      }
+      .cafe-status-UNKNOWN {
+        color: gray;
+        text-transform: uppercase;
+      }
+      .cafe-income {
+        text-align: right;
+      }
+    }
+  }
+
+  .map-and-details-layout {
+    position: relative;
+
+    .cafe-details-view {
+      box-shadow: -5px 0px 5px 1px #999;
+      background-color: white;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+
+      .cafe-details-header {
+        .cafe-name {
+          font-size: 20px;
+          display: block;
+        }
+        .cafe-address {
+          font-size: 10px;
+          color: gray;
+          display: block;
+        }
+      }
+      .v-caption {
+        text-transform: uppercase;
+        color: #5F9DF7;
+      }
+      .restock-buttons {
+        .v-button {
+          width: 100%;
+          color: white;
+          background: #5F9DF7;
+          border-radius: 0;
+          border: none;
+          text-transform: uppercase;
+          font-size: 12px;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+
 }

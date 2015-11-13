@@ -51,6 +51,7 @@ public class CafeTycoonUI extends UI {
         setContent(rootLayout);
 
         final Navigator navigator = new Navigator(this, viewContainer);
+        header.setNavigator(navigator);
         navigator.addView(Dashboard.VIEW_NAME, Dashboard.class);
         navigator.navigateTo(Dashboard.VIEW_NAME);
     }

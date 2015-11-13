@@ -11,8 +11,7 @@ import org.vaadin.teemu.VaadinIcons;
 public class Menu extends CssLayout {
 
     public Menu() {
-        setId("menu");
-        setWidth("195px");
+        addStyleName("menu");
         setHeight("100%");
         setPrimaryStyleName(CafeTycoonTheme.MENU_ROOT);
 
