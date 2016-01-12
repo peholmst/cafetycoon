@@ -38,6 +38,7 @@ $v-font-size: 14px;
   url('fonts/Vaadin-Icons.ttf') format('truetype'),
   url('fonts/Vaadin-Icons.svg#icomoon') format('svg');
 }
+
 .Vaadin-Icons {
   font-family: 'Vaadin-Icons';
 }
@@ -99,7 +100,6 @@ $v-font-size: 14px;
       }
       .v-grid-header {
         text-transform: uppercase;
-
         th {
           border-left: none;
           color: gray;
@@ -115,6 +115,9 @@ $v-font-size: 14px;
       .v-grid-row-selected > .v-grid-cell {
         background: #5F9DF7;
         color: white;
+      }
+      .v-grid-cell {
+        font-size: 13px;
       }
       .cafe-status-RUNNING {
         color: #5F9DF7;
@@ -134,6 +137,9 @@ $v-font-size: 14px;
       }
       .cafe-income {
         text-align: right;
+      }
+      th:first-child, td:first-child {
+        padding-left: 0;
       }
     }
   }
@@ -179,4 +185,57 @@ $v-font-size: 14px;
     }
   }
 
+  .cafe-details-view {
+
+    .sales {
+      background: transparent;
+
+      .v-grid-tablewrapper {
+        border: none;
+      }
+      .v-grid-header {
+        text-transform: uppercase;
+
+        th {
+          border-bottom: none;
+          border-left: none;
+          color: gray;
+          background: transparent;
+        }
+      }
+      .v-grid-row-stripe > td {
+        background-color: transparent;
+      }
+      .v-grid-row > td {
+        border: none;
+      }
+      .v-grid-row-selected > .v-grid-cell {
+        background: #5F9DF7;
+        color: white;
+      }
+      th:first-child, td:first-child {
+        padding-left: 0;
+      }
+      th:last-child, td:last-child {
+        padding-right: 0;
+      }
+      .v-grid-cell {
+        font-size: 11px;
+      }
+      .ralign {
+        text-align: right;
+      }
+      .boldtext {
+        font-weight: bold;
+      }
+      .v-grid-footer {
+        text-transform: uppercase;
+        border-top: 1px solid lightgray;
+        td {
+          color: #5F9DF7;
+          background: transparent;
+        }
+      }
+    }
+  }
 }

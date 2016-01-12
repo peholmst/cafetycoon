@@ -1,6 +1,7 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard;
 
 import com.vaadin.ui.CssLayout;
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.OverviewModel;
 import org.vaadin.samples.cafetycoon.ui.utils.TitledElement;
@@ -15,6 +16,7 @@ public class Dashboard extends HorizontalSplitPanel implements View, TitledEleme
 
     private OverviewModel model;
     private CafeSelectionModel selectionModel;
+    private CafeModel cafeModel;
     private CafeTableView cafeTableView;
     private CafeMapView cafeMapView;
     private CafeDetailsView cafeDetailsView;
@@ -22,13 +24,14 @@ public class Dashboard extends HorizontalSplitPanel implements View, TitledEleme
     public Dashboard() {
         model = new OverviewModel();
         selectionModel = new CafeSelectionModel();
+        cafeModel = new CafeModel(selectionModel);
 
         setSizeFull();
         cafeTableView = new CafeTableView(model, selectionModel);
 
         cafeMapView = new CafeMapView(model, selectionModel);
 
-        cafeDetailsView = new CafeDetailsView(selectionModel);
+        cafeDetailsView = new CafeDetailsView(cafeModel, selectionModel);
 
         setFirstComponent(cafeTableView);
 
@@ -46,10 +49,12 @@ public class Dashboard extends HorizontalSplitPanel implements View, TitledEleme
     public void attach() {
         super.attach();
         model.attach(getUI());
+        cafeModel.attach(getUI());
     }
 
     @Override
     public void detach() {
+        cafeModel.detach();
         model.detach();
         super.detach();
     }

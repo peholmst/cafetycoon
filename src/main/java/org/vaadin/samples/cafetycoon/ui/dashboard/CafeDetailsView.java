@@ -1,35 +1,39 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard;
 
-import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.ChartType;
-import com.vaadin.ui.*;
-import org.vaadin.samples.cafetycoon.domain.Cafe;
-import org.vaadin.samples.cafetycoon.domain.Services;
-import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
-
-import com.vaadin.data.Property;
-
 import java.math.BigDecimal;
 import java.util.Optional;
+
+import org.vaadin.samples.cafetycoon.domain.Cafe;
+import org.vaadin.samples.cafetycoon.domain.Services;
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeModel;
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
+import org.vaadin.samples.cafetycoon.ui.utils.MoneyConverter;
+
+import com.vaadin.addon.charts.Chart;
+import com.vaadin.addon.charts.model.ChartType;
+import com.vaadin.data.Property;
+import com.vaadin.ui.*;
 
 public class CafeDetailsView extends VerticalLayout {
 
     private CafeSelectionModel selectionModel;
+    private CafeModel model;
 
     private Label name;
     private Label address;
 
     // TODO Personnel
 
-    private Grid salesData;
+    private CafeSalesGrid salesData;
     private Chart beanStock;
 
     private Button restock50;
     private Button restock100;
     private Button restock200;
 
-    public CafeDetailsView(CafeSelectionModel selectionModel) {
+    public CafeDetailsView(CafeModel model, CafeSelectionModel selectionModel) {
         this.selectionModel = selectionModel;
+        this.model = model;
         addStyleName("cafe-details-view");
         setWidth("400px");
         setHeight("100%");
@@ -55,8 +59,7 @@ public class CafeDetailsView extends VerticalLayout {
 
         // TODO Personnel
 
-        salesData = new Grid("24 Hour Sales Data");
-        salesData.setSizeFull();
+        salesData = new CafeSalesGrid(model);
         addComponent(salesData);
         setExpandRatio(salesData, 1);
 
@@ -109,6 +112,7 @@ public class CafeDetailsView extends VerticalLayout {
     private void restock100(Button.ClickEvent event) {
         restock(100);
     }
+
     private void restock200(Button.ClickEvent event) {
         restock(200);
     }

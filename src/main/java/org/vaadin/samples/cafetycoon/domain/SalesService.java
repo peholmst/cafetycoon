@@ -1,12 +1,13 @@
 package org.vaadin.samples.cafetycoon.domain;
 
-import com.google.common.eventbus.EventBus;
-import com.vaadin.external.org.slf4j.Logger;
-import com.vaadin.external.org.slf4j.LoggerFactory;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import com.google.common.eventbus.EventBus;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 
 public class SalesService {
 
@@ -86,6 +87,23 @@ public class SalesService {
             sum = sum.add(get24hIncome(cafe));
         }
         return sum;
+    }
+
+    public List<CoffeeDrinkSaleStats> get24hSaleStats(Cafe cafe) {
+        List<SaleEvent> eventListCopy;
+        synchronized (this) {
+            eventListCopy = new LinkedList<>(getSalesEvents24h(cafe));
+        }
+        Map<CoffeeDrink, CoffeeDrinkSaleStats.Builder> builderMap = new HashMap<>();
+        for (SaleEvent event : eventListCopy) {
+            CoffeeDrinkSaleStats.Builder builder = builderMap.get(event.getDrink());
+            if (builder == null) {
+                builder = new CoffeeDrinkSaleStats.Builder(event.getDrink());
+                builderMap.put(event.getDrink(), builder);
+            }
+            builder.addSaleEvent(event);
+        }
+        return builderMap.values().stream().map(CoffeeDrinkSaleStats.Builder::build).collect(Collectors.toList());
     }
 
     public static class OutOfStockException extends Exception {

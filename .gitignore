@@ -4,3 +4,4 @@ target/
 *.iml
 gwt-unitCache/
 widgetsets/
+styles.scss.cache
