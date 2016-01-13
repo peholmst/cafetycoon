@@ -14,7 +14,7 @@ public class SalesService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SalesService.class);
     private final EventBus eventBus;
     private final StockService stockService;
-    private final Map<Cafe, LinkedList<SaleEvent>> salesEvents24h = new HashMap<>();
+    private final Map<Cafe, TemporalCache<SaleEvent>> salesEvents24h = new HashMap<>();
 
     public SalesService(EventBus eventBus, StockService stockService) {
         this.eventBus = eventBus;
@@ -37,38 +37,19 @@ public class SalesService {
         getSalesEvents24h(event.getCafe()).add(event);
     }
 
-    private void removeEventsOlderThan(Instant instant, LinkedList<SaleEvent> events) {
-        Iterator<SaleEvent> it = events.iterator();
-        while (it.hasNext()) {
-            SaleEvent event = it.next();
-            if (event.getInstant().isBefore(instant)) {
-                it.remove();
-            } else {
-                return;
-            }
-        }
-    }
-
-    private List<SaleEvent> getSalesEvents24h(Cafe cafe) {
-        LinkedList<SaleEvent> events = salesEvents24h.get(cafe);
+    private TemporalCache<SaleEvent> getSalesEvents24h(Cafe cafe) {
+        TemporalCache<SaleEvent> events = salesEvents24h.get(cafe);
         if (events == null) {
-            events = new LinkedList<>();
+            events = new TemporalCache<>();
             salesEvents24h.put(cafe, events);
-        } else {
-            removeEventsOlderThan(getInstant24hoursAgo(), events);
         }
         return events;
-    }
-
-    private Instant getInstant24hoursAgo() {
-        // For demonstrational purposes, we've sped up the world so that 24 hours is 5 minutes
-        return ClockProvider.getClock().instant().minusSeconds(300);
     }
 
     public BigDecimal get24hIncome(Cafe cafe) {
         List<SaleEvent> eventListCopy;
         synchronized (this) {
-            eventListCopy = new LinkedList<>(getSalesEvents24h(cafe));
+            eventListCopy = new LinkedList<>(getSalesEvents24h(cafe).getEntries());
         }
         BigDecimal sum = BigDecimal.ZERO;
         for (SaleEvent event : eventListCopy) {
@@ -92,7 +73,7 @@ public class SalesService {
     public List<CoffeeDrinkSaleStats> get24hSaleStats(Cafe cafe) {
         List<SaleEvent> eventListCopy;
         synchronized (this) {
-            eventListCopy = new LinkedList<>(getSalesEvents24h(cafe));
+            eventListCopy = new LinkedList<>(getSalesEvents24h(cafe).getEntries());
         }
         Map<CoffeeDrink, CoffeeDrinkSaleStats.Builder> builderMap = new HashMap<>();
         for (SaleEvent event : eventListCopy) {

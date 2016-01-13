@@ -7,10 +7,7 @@ import org.vaadin.samples.cafetycoon.domain.Cafe;
 import org.vaadin.samples.cafetycoon.domain.Services;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
-import org.vaadin.samples.cafetycoon.ui.utils.MoneyConverter;
 
-import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.ChartType;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 
@@ -25,7 +22,7 @@ public class CafeDetailsView extends VerticalLayout {
     // TODO Personnel
 
     private CafeSalesGrid salesData;
-    private Chart beanStock;
+    private CafeBeanStockChart beanStock;
 
     private Button restock50;
     private Button restock100;
@@ -63,9 +60,7 @@ public class CafeDetailsView extends VerticalLayout {
         addComponent(salesData);
         setExpandRatio(salesData, 1);
 
-        beanStock = new Chart(ChartType.LINE);
-        beanStock.setCaption("24 Hour Bean Stock");
-        beanStock.setSizeFull();
+        beanStock = new CafeBeanStockChart(model);
         addComponent(beanStock);
         setExpandRatio(beanStock, 1);
 

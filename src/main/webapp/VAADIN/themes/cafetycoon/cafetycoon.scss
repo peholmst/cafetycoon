@@ -92,6 +92,10 @@ $v-font-size: 14px;
       border-top: 1px solid #5F9DF7;
     }
 
+    .financial {
+      padding: 16.5px;
+    }
+
     .cafes {
       background: transparent;
 
@@ -137,9 +141,6 @@ $v-font-size: 14px;
       }
       .cafe-income {
         text-align: right;
-      }
-      th:first-child, td:first-child {
-        padding-left: 0;
       }
     }
   }
@@ -187,6 +188,9 @@ $v-font-size: 14px;
 
   .cafe-details-view {
 
+    .v-caption-sales, .v-caption-bean-stock {
+      border-bottom: 1px solid #5F9DF7;
+    }
     .sales {
       background: transparent;
 
@@ -236,6 +240,9 @@ $v-font-size: 14px;
           background: transparent;
         }
       }
+    }
+    .bean-stock {
+
     }
   }
 }

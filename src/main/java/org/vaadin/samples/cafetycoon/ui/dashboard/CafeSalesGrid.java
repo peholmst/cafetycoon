@@ -52,5 +52,4 @@ public class CafeSalesGrid extends Grid {
         FooterCell cell = getFooterRow(0).getCell(CafeModel.COL_UNITS_SOLD);
         cell.setText(String.valueOf(model.getTotalUnitsSold()));
     }
-
 }

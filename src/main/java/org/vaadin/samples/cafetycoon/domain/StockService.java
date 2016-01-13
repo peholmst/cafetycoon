@@ -2,6 +2,7 @@ package org.vaadin.samples.cafetycoon.domain;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.eventbus.EventBus;
@@ -14,6 +15,7 @@ public class StockService {
     private static final Logger LOGGER = LoggerFactory.getLogger(StockService.class);
     private final Map<Cafe, BigDecimal> stock = new HashMap<>();
     private final EventBus eventBus;
+    private final Map<Cafe, TemporalCache<StockChangeEvent>> stockChangeEvents24h = new HashMap<>();
 
     public StockService(EventBus eventBus) {
         this.eventBus = eventBus;
@@ -30,6 +32,7 @@ public class StockService {
         BigDecimal currentStock = stock.getOrDefault(cafe, BigDecimal.ZERO);
         BigDecimal newStock = currentStock.add(beanUnits);
         stock.put(cafe, newStock);
+        getStockChangEventsCache(cafe).add(new StockChangeEvent(newStock, cafe));
         eventBus.post(event);
     }
 
@@ -38,7 +41,21 @@ public class StockService {
         Cafe cafe = saleEvent.getCafe();
         BigDecimal currentStock = stock.getOrDefault(cafe, BigDecimal.ZERO);
         BigDecimal newStock = currentStock.subtract(saleEvent.getConsumedBeanUnits());
+        getStockChangEventsCache(cafe).add(new StockChangeEvent(newStock, cafe));
         stock.put(cafe, newStock);
         LOGGER.info("New stock of {} is {}", cafe, newStock);
+    }
+
+    public synchronized List<StockChangeEvent> get24hStockChangeEvents(Cafe cafe) {
+        return getStockChangEventsCache(cafe).getEntries();
+    }
+
+    private TemporalCache<StockChangeEvent> getStockChangEventsCache(Cafe cafe) {
+        TemporalCache<StockChangeEvent> cache = stockChangeEvents24h.get(cafe);
+        if (cache == null) {
+            cache = new TemporalCache<>();
+            stockChangeEvents24h.put(cafe, cache);
+        }
+        return cache;
     }
 }

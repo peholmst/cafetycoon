@@ -2,7 +2,7 @@ package org.vaadin.samples.cafetycoon.domain;
 
 import java.time.Instant;
 
-public abstract class BaseDomainEvent extends BaseEntity {
+public abstract class BaseDomainEvent extends BaseEntity implements TemporalCache.Entry {
 
     private final Instant instant;
 

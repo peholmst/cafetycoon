@@ -8,15 +8,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
+
 public class SalesGenerator {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SalesGenerator.class);
     private final Random rnd = new Random();
     private final CafeRepository cafeRepository;
     private final CoffeeDrinkRepository coffeeDrinkRepository;
     private final SalesService salesService;
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    public SalesGenerator(CafeRepository cafeRepository, CoffeeDrinkRepository coffeeDrinkRepository, SalesService salesService) {
+    public SalesGenerator(CafeRepository cafeRepository, CoffeeDrinkRepository coffeeDrinkRepository,
+        SalesService salesService) {
         this.salesService = salesService;
         this.cafeRepository = cafeRepository;
         this.coffeeDrinkRepository = coffeeDrinkRepository;
@@ -28,14 +33,17 @@ public class SalesGenerator {
         if (rnd.nextInt(3) > 0) {
             return;
         }
-
         Cafe cafe = pickRandom(cafeRepository.getCafes());
         CoffeeDrink drink = pickRandom(coffeeDrinkRepository.getCoffeeDrinks());
         int qty = rnd.nextInt(10);
+        LOGGER.info("Generating sale, cafe = {}, drink = {}, qty = {}", new Object[] { cafe, drink, qty });
         try {
             salesService.buy(cafe, drink, qty);
         } catch (SalesService.OutOfStockException e) {
             // Ignore it
+        } catch (Exception ex) {
+            LOGGER.error("An error occurred while generating sale", ex);
+            // Don't throw it
         }
     }
 

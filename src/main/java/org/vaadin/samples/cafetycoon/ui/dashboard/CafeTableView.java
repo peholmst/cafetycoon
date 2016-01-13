@@ -42,9 +42,10 @@ public class CafeTableView extends VerticalLayout {
         addStyleName("cafe-table-view");
         setSizeFull();
         setSpacing(true);
-        setMargin(true);
+        setMargin(false);
 
         HorizontalLayout financialLayout = new HorizontalLayout();
+        financialLayout.addStyleName("financial");
         financialLayout.setWidth("100%");
         financialLayout.setSpacing(true);
         addComponent(financialLayout);
