@@ -16,6 +16,9 @@ import com.vaadin.addon.charts.model.DataSeriesItem;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import org.vaadin.samples.cafetycoon.domain.events.RestockEvent;
+import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
+import org.vaadin.samples.cafetycoon.domain.events.StockChangeEvent;
 
 public class CafeModel extends AbstractModel {
 

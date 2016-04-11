@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+ <head>  
+  <meta charset="UTF-8" name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;cafetycoon&quot;}">
+  <meta charset="UTF-8" name="package-mapping" content="com_vaadin_addon_charts:com.vaadin.addon.charts">
+  <meta charset="UTF-8" name="package-mapping" content="org_vaadin_samples_cafetycoon_ui_dashboard_components:org.vaadin.samples.cafetycoon.ui.dashboard.components">
+ </head> 
+ <body> 
+  <vaadin-vertical-layout style-name="cafe-overview" spacing size-full margin> 
+   <vaadin-horizontal-layout width-full> 
+    <vaadin-vertical-layout size-auto> 
+     <vaadin-label style-name="cafe-name" size-auto plain-text _id="cafeName">
+       Cafe Name 
+     </vaadin-label> 
+     <vaadin-label style-name="cafe-address" size-auto plain-text _id="cafeAddress">
+       Cafe address 
+     </vaadin-label> 
+    </vaadin-vertical-layout> 
+    <vaadin-label style-name="out-of-stock" size-auto plain-text _id="outOfStock" :middle :right>
+      OUT OF STOCK 
+    </vaadin-label> 
+   </vaadin-horizontal-layout> 
+   <org_vaadin_samples_cafetycoon_ui_dashboard_components-message-board caption="Personnel" style-name="personnel" width-full _id="personnel"></org_vaadin_samples_cafetycoon_ui_dashboard_components-message-board> 
+   <vaadin-grid caption="24h Sales Data" style-name="sales-data" size-full _id="salesData" :expand></vaadin-grid> 
+   <com_vaadin_addon_charts-chart caption="Bean Stock" style-name="bean-stock" width-full _id="beanStock"></com_vaadin_addon_charts-chart> 
+   <vaadin-horizontal-layout spacing width-full> 
+    <vaadin-button style-name="restock-button" width-full plain-text _id="restock50" :expand>
+      Restock 50 
+    </vaadin-button> 
+    <vaadin-button style-name="restock-button" width-full plain-text _id="restock100" :expand>
+      Restock 100 
+    </vaadin-button> 
+    <vaadin-button style-name="restock-button" width-full plain-text _id="restock200" :expand>
+      Restock 200 
+    </vaadin-button> 
+   </vaadin-horizontal-layout> 
+  </vaadin-vertical-layout>  
+ </body>
+</html>

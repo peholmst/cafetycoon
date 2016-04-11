@@ -10,11 +10,11 @@
     <packaging>war</packaging>
 
     <properties>
-        <vaadin.version>7.6.0</vaadin.version>
-        <vaadin-plugin.version>7.6.0</vaadin-plugin.version>
-        <vaadin-charts.version>3.0.0-alpha8</vaadin-charts.version>
+        <vaadin.version>7.6.4</vaadin.version>
+        <vaadin-plugin.version>7.6.4</vaadin-plugin.version>
+        <vaadin-charts.version>3.0.0</vaadin-charts.version>
         <vaadin-icons.version>1.0.1</vaadin-icons.version>
-        <googlemaps.version>1.1.2</googlemaps.version>
+        <googlemaps.version>1.2.1</googlemaps.version>
         <project.build.encoding>UTF-8</project.build.encoding>
         <project.build.source>1.8</project.build.source>
         <project.build.target>1.8</project.build.target>
@@ -63,6 +63,16 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>19.0-rc2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.22.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
         </dependency>
     </dependencies>
 

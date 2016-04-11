@@ -17,6 +17,7 @@ public class Services implements ServletContextListener {
 
     private CafeRepository cafeRepository;
     private CoffeeDrinkRepository coffeeDrinkRepository;
+    private EmployeeRepository employeeRepository;
 
     private StockService stockService;
     private CafeStatusService cafeStatusService;
@@ -53,12 +54,17 @@ public class Services implements ServletContextListener {
         return balanceService;
     }
 
+    public EmployeeRepository getEmployeeRepository() {
+        return employeeRepository;
+    }
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         eventBus = new EventBus();
 
         cafeRepository = new CafeRepository();
         coffeeDrinkRepository = new CoffeeDrinkRepository();
+        employeeRepository = new EmployeeRepository(cafeRepository);
 
         stockService = new StockService(eventBus);
         // Set up initial stock

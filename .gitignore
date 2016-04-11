@@ -2,6 +2,11 @@
 target/
 .idea/
 *.iml
+.settings/
+.project
+.classpath
+.tern-project
+.designer/
 gwt-unitCache/
 widgetsets/
 styles.scss.cache

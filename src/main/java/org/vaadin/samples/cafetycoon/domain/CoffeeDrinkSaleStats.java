@@ -1,5 +1,7 @@
 package org.vaadin.samples.cafetycoon.domain;
 
+import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 

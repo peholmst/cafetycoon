@@ -7,6 +7,9 @@ import java.util.*;
 import org.vaadin.samples.cafetycoon.domain.*;
 
 import com.google.common.eventbus.Subscribe;
+import org.vaadin.samples.cafetycoon.domain.events.CafeStatusChangedEvent;
+import org.vaadin.samples.cafetycoon.domain.events.RestockEvent;
+import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
 
 public class OverviewModel extends AbstractModel {
 

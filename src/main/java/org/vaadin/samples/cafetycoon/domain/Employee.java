@@ -1,7 +1,26 @@
 package org.vaadin.samples.cafetycoon.domain;
 
-/**
- * Created by petterwork on 10/11/15.
- */
-public class Employee {
+public class Employee extends BaseEntity {
+
+    private final String name;
+    private final String profileImageUrl;
+    private final Cafe cafe;
+
+    public Employee(String name, String profileImageUrl, Cafe cafe) {
+        this.name = name;
+        this.profileImageUrl = profileImageUrl;
+        this.cafe = cafe;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public Cafe getCafe() {
+        return cafe;
+    }
 }

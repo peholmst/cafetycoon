@@ -9,6 +9,9 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
+import org.vaadin.samples.cafetycoon.domain.events.RestockEvent;
+import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
+import org.vaadin.samples.cafetycoon.domain.events.StockChangeEvent;
 
 public class StockService {
 

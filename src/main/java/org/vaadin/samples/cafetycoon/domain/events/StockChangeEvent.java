@@ -1,4 +1,7 @@
-package org.vaadin.samples.cafetycoon.domain;
+package org.vaadin.samples.cafetycoon.domain.events;
+
+import org.vaadin.samples.cafetycoon.domain.BaseDomainEvent;
+import org.vaadin.samples.cafetycoon.domain.Cafe;
 
 import java.math.BigDecimal;
 

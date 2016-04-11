@@ -1,13 +1,13 @@
 package org.vaadin.samples.cafetycoon.domain;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.google.common.eventbus.EventBus;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
+import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
 
 public class SalesService {
 
