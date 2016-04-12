@@ -12,5 +12,5 @@ public final class MoneyUtils {
     public static String formatMoney(BigDecimal amount) {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
         return currencyFormatter.format(amount.doubleValue());
-    }
+    }    
 }

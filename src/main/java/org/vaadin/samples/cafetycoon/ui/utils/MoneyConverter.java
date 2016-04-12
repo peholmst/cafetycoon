@@ -5,11 +5,13 @@ import java.util.Locale;
 
 import com.vaadin.data.util.converter.Converter;
 
+@SuppressWarnings("serial")
 public class MoneyConverter implements Converter<String, BigDecimal> {
+	
     @Override
     public BigDecimal convertToModel(String value, Class<? extends BigDecimal> targetType, Locale locale)
-        throws ConversionException {
-        throw new ConversionException("This is a one-way converter");
+        throws ConversionException {    	
+        throw new RuntimeException("This is a one-way converter");
     }
 
     @Override

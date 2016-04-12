@@ -14,6 +14,7 @@ import com.vaadin.ui.VerticalLayout;
 import org.vaadin.samples.cafetycoon.ui.components.Header;
 import org.vaadin.samples.cafetycoon.ui.components.Menu;
 import org.vaadin.samples.cafetycoon.ui.dashboard.Dashboard;
+import org.vaadin.samples.cafetycoon.ui.dashboard.DashboardView;
 import org.vaadin.samples.cafetycoon.ui.theme.CafeTycoonTheme;
 
 import javax.servlet.annotation.WebServlet;
@@ -52,8 +53,8 @@ public class CafeTycoonUI extends UI {
 
         final Navigator navigator = new Navigator(this, viewContainer);
         header.setNavigator(navigator);
-        navigator.addView(Dashboard.VIEW_NAME, Dashboard.class);
-        navigator.navigateTo(Dashboard.VIEW_NAME);
+        navigator.addView(DashboardView.VIEW_NAME, DashboardView.class);
+        navigator.navigateTo(DashboardView.VIEW_NAME);
     }
 
     @WebServlet(urlPatterns = "/*")

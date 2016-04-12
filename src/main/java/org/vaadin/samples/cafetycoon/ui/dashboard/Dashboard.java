@@ -10,6 +10,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.HorizontalSplitPanel;
 
+@Deprecated
 public class Dashboard extends HorizontalSplitPanel implements View, TitledElement {
 
     public static final String VIEW_NAME = "dashboard";

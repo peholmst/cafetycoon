@@ -9,6 +9,7 @@ import org.vaadin.samples.cafetycoon.domain.Services;
 
 import com.vaadin.ui.UI;
 
+@SuppressWarnings("serial")
 public abstract class AbstractModel implements Serializable {
 
     private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
@@ -35,42 +36,52 @@ public abstract class AbstractModel implements Serializable {
         getUI().ifPresent(ui -> ui.access(runnable));
     }
 
+    @Deprecated
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(listener);
     }
 
+    @Deprecated
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(listener);
     }
 
+    @Deprecated
     public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         changeSupport.removePropertyChangeListener(propertyName, listener);
     }
 
+    @Deprecated
     public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
         changeSupport.addPropertyChangeListener(propertyName, listener);
     }
 
+    @Deprecated
     protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
+    @Deprecated
     protected void firePropertyChange(String propertyName, int oldValue, int newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
+    @Deprecated
     protected void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
         changeSupport.firePropertyChange(propertyName, oldValue, newValue);
     }
 
+    @Deprecated
     protected void fireIndexedPropertyChange(String propertyName, int index, Object oldValue, Object newValue) {
         changeSupport.fireIndexedPropertyChange(propertyName, index, oldValue, newValue);
     }
 
+    @Deprecated
     protected void fireIndexedPropertyChange(String propertyName, int index, int oldValue, int newValue) {
         changeSupport.fireIndexedPropertyChange(propertyName, index, oldValue, newValue);
     }
 
+    @Deprecated
     protected void fireIndexedPropertyChange(String propertyName, int index, boolean oldValue, boolean newValue) {
         changeSupport.fireIndexedPropertyChange(propertyName, index, oldValue, newValue);
     }
