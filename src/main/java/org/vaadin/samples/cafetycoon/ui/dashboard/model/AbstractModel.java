@@ -24,8 +24,12 @@ public abstract class AbstractModel implements Serializable {
     protected void modelAttached() {
     }
 
+    protected void modelDetached() {    	
+    }
+    
     public void detach() {
         Services.getInstance().getEventBus().unregister(this);
+        modelDetached();
     }
 
     protected Optional<UI> getUI() {

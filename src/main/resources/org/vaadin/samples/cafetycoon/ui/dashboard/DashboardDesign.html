@@ -1,14 +1,17 @@
 <!doctype html>
 <html>
- <head>  
+ <head>
   <meta charset="UTF-8" name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;cafetycoon&quot;}">
   <meta charset="UTF-8" name="package-mapping" content="org_vaadin_samples_cafetycoon_ui_dashboard:org.vaadin.samples.cafetycoon.ui.dashboard">
   <meta charset="UTF-8" name="package-mapping" content="com_vaadin_tapio_googlemaps:com.vaadin.tapio.googlemaps">
  </head> 
  <body> 
-  <vaadin-horizontal-split-panel split-position="400px" min-split-position="300px"> 
-   <org_vaadin_samples_cafetycoon_ui_dashboard-sales-overview-view size-full _id="salesOverview"></org_vaadin_samples_cafetycoon_ui_dashboard-sales-overview-view> 
-   <vaadin-css-layout size-full></vaadin-css-layout> 
+  <vaadin-horizontal-split-panel split-position="420px" min-split-position="300px"> 
+   <org_vaadin_samples_cafetycoon_ui_dashboard-sales-overview size-full _id="salesOverview"></org_vaadin_samples_cafetycoon_ui_dashboard-sales-overview> 
+   <vaadin-css-layout size-full> 
+    <org_vaadin_samples_cafetycoon_ui_dashboard-cafe-map size-full _id="cafeMap"></org_vaadin_samples_cafetycoon_ui_dashboard-cafe-map> 
+    <org_vaadin_samples_cafetycoon_ui_dashboard-cafe-overview _id="cafeOverview"></org_vaadin_samples_cafetycoon_ui_dashboard-cafe-overview> 
+   </vaadin-css-layout> 
   </vaadin-horizontal-split-panel>  
  </body>
 </html>

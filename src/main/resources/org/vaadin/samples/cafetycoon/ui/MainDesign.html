@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8" name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;cafetycoon&quot;}">
+  <meta charset="UTF-8" name="package-mapping" content="org_vaadin_samples_cafetycoon_ui_components:org.vaadin.samples.cafetycoon.ui.components">
+ </head> 
+ <body> 
+  <vaadin-vertical-layout size-full> 
+   <vaadin-css-layout style-name="header" width-full height="60px"> 
+    <vaadin-button style-name="menu-button" plain-text _id="toggleMenu"></vaadin-button> 
+    <org_vaadin_samples_cafetycoon_ui_components-menu height-full _id="menu"></org_vaadin_samples_cafetycoon_ui_components-menu> 
+    <vaadin-label style-name="view-title" size-auto plain-text _id="viewTitle">
+      Label 
+    </vaadin-label> 
+   </vaadin-css-layout> 
+   <vaadin-panel style-name="borderless" size-full _id="viewContainer" :expand></vaadin-panel> 
+  </vaadin-vertical-layout>  
+ </body>
+</html>

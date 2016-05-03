@@ -1,17 +1,21 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard.model;
 
+import java.io.Serializable;
+
 import org.vaadin.samples.cafetycoon.domain.Cafe;
 
 import com.vaadin.data.util.ObjectProperty;
 
-/**
- * Created by petterwork on 12/11/15.
- */
-public class CafeSelectionModel {
+@SuppressWarnings("serial")
+public class CafeSelectionModel implements Serializable {
 
-    private ObjectProperty<Cafe> selection = new ObjectProperty<>(null, Cafe.class);
+    private final ObjectProperty<Cafe> selection = new ObjectProperty<>(null, Cafe.class);
 
-    public ObjectProperty<Cafe> getSelection() {
+    public interface Observer {
+    	void setCafeSelectionModel(CafeSelectionModel model);
+    }
+    
+    public ObjectProperty<Cafe> selection() {
         return selection;
     }
 }

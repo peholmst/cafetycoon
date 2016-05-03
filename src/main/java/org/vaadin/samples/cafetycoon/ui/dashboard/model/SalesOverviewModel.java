@@ -26,6 +26,10 @@ public class SalesOverviewModel extends AbstractModel {
 	private final ObjectProperty<BigDecimal> income24h = new ObjectProperty<>(BigDecimal.ZERO, BigDecimal.class);
 	private final IndexedContainer cafes = new IndexedContainer();
 
+	public interface Observer {
+		void setSalesOverviewModel(SalesOverviewModel model);
+	}
+	
 	public SalesOverviewModel() {
 		cafes.addContainerProperty(COL_CAFE, String.class, "");
 		cafes.addContainerProperty(COL_24INCOME, BigDecimal.class, BigDecimal.ZERO);

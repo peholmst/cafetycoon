@@ -47,76 +47,46 @@ $v-font-size: 14px;
   @include valo;
 
   .header {
-    height: 60px;
     background-color: #5995E9;
-    position: relative;
 
-    .menu-button, .menu-button.v-pressed {
+    .menu-button, .menu-button.v-pressed, .menu-button:hover, .menu-button:hover:after, .menu-button:focus:after {
       border: none;
       background: transparent;
       color: white;
       box-shadow: none;
-      position: absolute;
-      left: 0;
-      bottom: 5px;
+      position: relative;
+      left: 0px;
+      top: 15px;
+      border-radius: 0;
     }
 
     .view-title {
       color: white;
       font-size: 25px;
-      position: absolute;
-      bottom: 4px;
-      left: 170px;
+      position: relative;
+      top: 10px;
     }
+  }
+
+  .menu.hidden {
+    left: -185px;
+    transition: 0.5s;
+  }
+  
+  .menu.visible {
+    left: 0px;
+    transition: 0.5s;
   }
 
   .menu {
+    position: absolute;
     width: 170px;
-
+    top: 60px;
+    z-index: 10;
+  	box-shadow: 5px 1px 5px 1px #999;
+    
     .v-icon {
       color: #EE7C08;
-    }
-  }
-
-
-  .map-and-details-layout {
-    position: relative;
-
-    .cafe-details-view {
-      box-shadow: -5px 0px 5px 1px #999;
-      background-color: white;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-
-      .cafe-details-header {
-        .cafe-name {
-          font-size: 20px;
-          display: block;
-        }
-        .cafe-address {
-          font-size: 10px;
-          color: gray;
-          display: block;
-        }
-      }
-      .v-caption {
-        text-transform: uppercase;
-        color: #5F9DF7;
-      }
-      .restock-buttons {
-        .v-button {
-          width: 100%;
-          color: white;
-          background: #5F9DF7;
-          border-radius: 0;
-          border: none;
-          text-transform: uppercase;
-          font-size: 12px;
-          font-weight: normal;
-        }
-      }
     }
   }
   
@@ -161,6 +131,9 @@ $v-font-size: 14px;
       .v-grid-cell {
         font-size: 13px;
       }
+      .v-grid-cell-focused:before {
+        border: none;
+      }
       .cafe-status-RUNNING {
         color: #5F9DF7;
         text-transform: uppercase;
@@ -183,7 +156,22 @@ $v-font-size: 14px;
     }
   }
   
+  .cafe-overview.hidden {
+    right: -415px;
+    transition: 0.5s;
+  }
+  
+  .cafe-overview.visible {
+    right: 0px;
+    transition: 0.5s;
+  }
+  
   .cafe-overview {  
+  	position: absolute;
+  	top: 0px;
+  	bottom: 0px;
+  	box-shadow: -5px 0px 5px 1px #999;
+    background-color: white; 	
   
     .cafe-name {
       font-size: 20px;

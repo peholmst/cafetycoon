@@ -78,18 +78,18 @@ public class CafeDetailsView extends VerticalLayout {
     @Override
     public void attach() {
         super.attach();
-        selectionModel.getSelection().addValueChangeListener(this::cafeSelectionChanged);
+        selectionModel.selection().addValueChangeListener(this::cafeSelectionChanged);
         cafeSelectionChanged(null);
     }
 
     @Override
     public void detach() {
-        selectionModel.getSelection().removeValueChangeListener(this::cafeSelectionChanged);
+        selectionModel.selection().removeValueChangeListener(this::cafeSelectionChanged);
         super.detach();
     }
 
     private void cafeSelectionChanged(Property.ValueChangeEvent event) {
-        setCafe(Optional.ofNullable(selectionModel.getSelection().getValue()));
+        setCafe(Optional.ofNullable(selectionModel.selection().getValue()));
     }
 
     private void setCafe(Optional<Cafe> cafe) {
@@ -113,7 +113,7 @@ public class CafeDetailsView extends VerticalLayout {
     }
 
     private void restock(int amount) {
-        Cafe cafe = selectionModel.getSelection().getValue();
+        Cafe cafe = selectionModel.selection().getValue();
         if (cafe != null) {
             Services.getInstance().getStockService().restock(cafe, new BigDecimal(amount));
         }

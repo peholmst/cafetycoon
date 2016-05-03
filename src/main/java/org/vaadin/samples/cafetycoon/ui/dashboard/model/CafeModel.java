@@ -20,6 +20,7 @@ import org.vaadin.samples.cafetycoon.domain.events.RestockEvent;
 import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
 import org.vaadin.samples.cafetycoon.domain.events.StockChangeEvent;
 
+@Deprecated
 public class CafeModel extends AbstractModel {
 
     private final IndexedContainer salesData;
@@ -44,13 +45,13 @@ public class CafeModel extends AbstractModel {
 
     @Override
     protected void modelAttached() {
-        cafeSelectionModel.getSelection().addValueChangeListener(this::cafeSelectionChanged);
+        cafeSelectionModel.selection().addValueChangeListener(this::cafeSelectionChanged);
         updateModel(true, true);
     }
 
     @Override
     public void detach() {
-        cafeSelectionModel.getSelection().removeValueChangeListener(this::cafeSelectionChanged);
+        cafeSelectionModel.selection().removeValueChangeListener(this::cafeSelectionChanged);
         super.detach();
     }
 
@@ -82,20 +83,20 @@ public class CafeModel extends AbstractModel {
 
     @Subscribe
     protected synchronized void onSaleEvent(SaleEvent event) {
-        if (event.getCafe().equals(cafeSelectionModel.getSelection().getValue())) {
+        if (event.getCafe().equals(cafeSelectionModel.selection().getValue())) {
             updateModel(true, true);
         }
     }
 
     @Subscribe
     protected synchronized void onRestockEvent(RestockEvent event) {
-        if (event.getCafe().equals(cafeSelectionModel.getSelection().getValue())) {
+        if (event.getCafe().equals(cafeSelectionModel.selection().getValue())) {
             updateModel(false, true);
         }
     }
 
     private void updateModel(boolean updateSales, boolean updateStock) {
-        final Cafe cafe = cafeSelectionModel.getSelection().getValue();
+        final Cafe cafe = cafeSelectionModel.selection().getValue();
         final List<Runnable> jobs = new LinkedList<>();
         if (updateSales) {
             List<CoffeeDrinkSaleStats> saleStats;
