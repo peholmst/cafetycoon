@@ -1,5 +1,6 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard;
 
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeOverviewModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.SalesOverviewModel;
 import org.vaadin.samples.cafetycoon.ui.utils.TitledElement;
@@ -14,6 +15,7 @@ public class Dashboard extends DashboardDesign implements View, TitledElement {
 	
 	private SalesOverviewModel salesOverviewModel;
 	private CafeSelectionModel cafeSelectionModel;
+	private CafeOverviewModel cafeOverviewModel;
 	
 	public Dashboard() {
 		salesOverviewModel = new SalesOverviewModel();
@@ -24,16 +26,22 @@ public class Dashboard extends DashboardDesign implements View, TitledElement {
 		salesOverview.setCafeSelectionModel(cafeSelectionModel);
 		cafeMap.setCafeSelectionModel(cafeSelectionModel);
 		cafeOverview.setCafeSelectionModel(cafeSelectionModel);
+		
+		cafeOverviewModel = new CafeOverviewModel();
+		cafeOverviewModel.setCafeSelectionModel(cafeSelectionModel);
+		cafeOverview.setCafeOverviewModel(cafeOverviewModel);
 	}
 	
 	@Override
 	public void attach() {
 		super.attach();
 		salesOverviewModel.attach(getUI());
+		cafeOverviewModel.attach(getUI());
 	}
 	
 	@Override
 	public void detach() {
+		cafeOverviewModel.detach();
 		salesOverviewModel.detach();
 		super.detach();
 	}

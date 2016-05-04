@@ -6,6 +6,7 @@ import org.vaadin.samples.cafetycoon.ui.utils.MoneyConverter;
 
 import java.beans.PropertyChangeEvent;
 
+@Deprecated
 public class CafeSalesGrid extends Grid {
 
     private final CafeModel model;

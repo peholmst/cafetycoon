@@ -1,4 +1,4 @@
-package org.vaadin.samples.cafetycoon.ui.dashboard;
+package org.vaadin.samples.cafetycoon.ui.dashboard.components;
 
 import java.io.Serializable;
 import java.util.HashSet;

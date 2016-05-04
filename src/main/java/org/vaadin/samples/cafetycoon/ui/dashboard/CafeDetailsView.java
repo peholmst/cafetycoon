@@ -11,6 +11,7 @@ import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 
+@Deprecated
 public class CafeDetailsView extends VerticalLayout {
 
     private CafeSelectionModel selectionModel;

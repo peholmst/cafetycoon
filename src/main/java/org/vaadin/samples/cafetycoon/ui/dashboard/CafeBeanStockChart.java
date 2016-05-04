@@ -7,6 +7,7 @@ import com.vaadin.addon.charts.model.AxisType;
 import com.vaadin.addon.charts.model.ChartType;
 import com.vaadin.addon.charts.model.Configuration;
 
+@Deprecated
 public class CafeBeanStockChart extends Chart {
 
     public CafeBeanStockChart(CafeModel model) { // Model has the same scope as this chart, no need to unregister

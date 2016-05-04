@@ -58,12 +58,16 @@ $v-font-size: 14px;
       left: 0px;
       top: 15px;
       border-radius: 0;
+      z-index: 15;
     }
 
     .view-title {
       color: white;
       font-size: 25px;
-      position: relative;
+      position: absolute;
+      text-align: center;
+      left: 0px;
+      right: 0px;
       top: 10px;
     }
   }
