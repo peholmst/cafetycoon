@@ -18,17 +18,32 @@ public class SalesGenerator {
     private final CafeRepository cafeRepository;
     private final CoffeeDrinkRepository coffeeDrinkRepository;
     private final SalesService salesService;
-    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private ScheduledExecutorService executorService;
 
     public SalesGenerator(CafeRepository cafeRepository, CoffeeDrinkRepository coffeeDrinkRepository,
         SalesService salesService) {
         this.salesService = salesService;
         this.cafeRepository = cafeRepository;
         this.coffeeDrinkRepository = coffeeDrinkRepository;
-
-        executorService.scheduleWithFixedDelay(this::generateSale, 5, 1, TimeUnit.SECONDS);
     }
 
+    public synchronized void start() {
+    	if (executorService == null) {
+    		executorService = Executors.newSingleThreadScheduledExecutor();
+    		executorService.scheduleWithFixedDelay(this::generateSale, 5, 1, TimeUnit.SECONDS);
+    	}
+    }
+    
+    public synchronized void stop() {
+    	if (executorService != null) {
+    		try {
+    			executorService.shutdown();
+    		} finally {
+    			executorService = null;
+    		}
+    	}
+    }
+    
     public void generateSale() {
         if (rnd.nextInt(3) > 0) {
             return;

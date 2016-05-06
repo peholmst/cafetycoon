@@ -28,6 +28,10 @@ public class EmployeeRepository {
     public List<Employee> getEmployees() {
         return employees;
     }
+    
+    public List<Employee> getEmployeesForCafe(Cafe cafe) {
+    	return Collections.emptyList(); // TODO Implement me!
+    }
 
     private Employee createEmployeeFromRest(Cafe cafe) {
         String jsonResponse = client.target("http://uifaces.com/api/v1/random").request(MediaType.APPLICATION_JSON)

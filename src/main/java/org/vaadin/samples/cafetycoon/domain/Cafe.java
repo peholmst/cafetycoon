@@ -2,6 +2,7 @@ package org.vaadin.samples.cafetycoon.domain;
 
 import com.vaadin.tapio.googlemaps.client.LatLon;
 
+@SuppressWarnings("serial")
 public class Cafe extends BaseEntity {
 
     private final String name;

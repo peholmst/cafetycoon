@@ -10,6 +10,7 @@ import java.math.BigDecimal;
  * In a real world, you would want to be able to buy more than one type of drink at the same time, but
  * this is good enough for this sample application.
  */
+@SuppressWarnings("serial")
 public class SaleEvent extends BaseDomainEvent {
 
     private final Cafe cafe;

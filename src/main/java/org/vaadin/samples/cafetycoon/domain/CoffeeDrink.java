@@ -2,6 +2,7 @@ package org.vaadin.samples.cafetycoon.domain;
 
 import java.math.BigDecimal;
 
+@SuppressWarnings("serial")
 public class CoffeeDrink extends BaseEntity {
 
     private final String name;

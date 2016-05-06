@@ -1,7 +1,6 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,18 +9,22 @@ import java.util.List;
 import java.util.Set;
 
 import org.vaadin.samples.cafetycoon.domain.Cafe;
+import org.vaadin.samples.cafetycoon.domain.CafeStatus;
 import org.vaadin.samples.cafetycoon.domain.CoffeeDrink;
 import org.vaadin.samples.cafetycoon.domain.CoffeeDrinkSaleStats;
 import org.vaadin.samples.cafetycoon.domain.Services;
+import org.vaadin.samples.cafetycoon.domain.events.CafeStatusChangedEvent;
 import org.vaadin.samples.cafetycoon.domain.events.RestockEvent;
 import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
 import org.vaadin.samples.cafetycoon.domain.events.StockChangeEvent;
+import org.vaadin.samples.cafetycoon.ui.utils.EventContainer;
 
 import com.google.common.eventbus.Subscribe;
 import com.vaadin.data.Container.Indexed;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.ObjectProperty;
 
 @SuppressWarnings("serial")
 public class CafeOverviewModel extends AbstractModel implements CafeSelectionModel.Observer {
@@ -32,9 +35,10 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 	public static final String COL_INCOME = "Income";
 
 	private CafeSelectionModel selectionModel;
-	private final IndexedContainer beanStockChanges24h = createBeanStockContainer();
+	private final EventContainer<StockChangeEvent> beanStockChanges24h = new EventContainer<>();
 	private final IndexedContainer salesData24h = createSalesDataContainer();
-
+	private final ObjectProperty<CafeStatus> currentStatus = new ObjectProperty<>(CafeStatus.UNKNOWN, CafeStatus.class);
+	
 	private IndexedContainer createSalesDataContainer() {
 		IndexedContainer container = new IndexedContainer();
 		container.addContainerProperty(COL_DRINK, String.class, null);
@@ -44,13 +48,6 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 		return container;
 	}
 
-	private IndexedContainer createBeanStockContainer() {
-		IndexedContainer container = new IndexedContainer();
-		container.addContainerProperty("x", Date.class, null);
-		container.addContainerProperty("y", BigDecimal.class, null);
-		return container;
-	}
-	
 	public Indexed messages() {
 		return null; // TODO Implement me!
 	}
@@ -59,8 +56,12 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 		return salesData24h;
 	}
 
-	public Indexed beanStockChanges24h() {
+	public EventContainer<StockChangeEvent> beanStockChanges24h() {
 		return beanStockChanges24h;
+	}
+	
+	public ObjectProperty<CafeStatus> currentStatus() {
+		return currentStatus;
 	}
 
 	@Subscribe
@@ -76,8 +77,23 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 			access(this::updateBeanStock);
 		}
 	}
+	
+	@Subscribe	
+	protected synchronized void onCafeStatusChangedEvent(CafeStatusChangedEvent event) {
+		if (event.getCafe().equals(selectionModel.selection().getValue())) {
+			access(this::updateStatus);
+		}
+	}
 
-	@SuppressWarnings("unchecked")
+	private void updateStatus() {
+		Cafe cafe = selectionModel.selection().getValue();
+		if (cafe != null) {
+			currentStatus.setValue(Services.getInstance().getCafeStatusService().getCurrentStatus(cafe));
+		} else {
+			currentStatus.setValue(CafeStatus.UNKNOWN);
+		}
+	}
+	
 	private void updateBeanStock() {
 		Cafe cafe = selectionModel.selection().getValue();
 		List<StockChangeEvent> stockChanges;
@@ -86,21 +102,7 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 		} else {
 			stockChanges = Collections.emptyList();
 		}
-		
-		Set<StockChangeEvent> eventsToDelete = new HashSet<>((Collection<StockChangeEvent>) beanStockChanges24h.getItemIds());
-		stockChanges.forEach(event -> addOrUpdateStockChangeEvent(eventsToDelete, event));
-		eventsToDelete.forEach(beanStockChanges24h::removeItem);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void addOrUpdateStockChangeEvent(Set<StockChangeEvent> eventsToDelete, StockChangeEvent event) {
-		Item item = beanStockChanges24h.getItem(event);
-		if (item == null) {
-			item = beanStockChanges24h.addItem(event);
-		}
-		eventsToDelete.remove(event);
-		item.getItemProperty("x").setValue(Date.from(event.getInstant()));
-		item.getItemProperty("y").setValue(event.getCurrentStock());
+		beanStockChanges24h.setEvents(stockChanges);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -143,7 +145,7 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 	}
 
 	private void cafeSelectionChanged(Property.ValueChangeEvent event) {
-		access(this::updateBeanStock, this::updateSalesData);
+		access(this::updateBeanStock, this::updateSalesData, this::updateStatus);
 	}
 
 	public interface Observer {

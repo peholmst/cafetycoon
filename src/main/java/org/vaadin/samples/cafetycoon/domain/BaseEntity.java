@@ -3,6 +3,7 @@ package org.vaadin.samples.cafetycoon.domain;
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
 
+@SuppressWarnings("serial")
 public abstract class BaseEntity implements Serializable {
 
     private final long id;

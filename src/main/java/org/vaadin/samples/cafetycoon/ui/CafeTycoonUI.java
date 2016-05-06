@@ -13,10 +13,11 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")
-@Push
+@Push(transport = Transport.WEBSOCKET_XHR)
 @Widgetset("org.vaadin.samples.cafetycoon.CafeTycoonWidgetset")
 @Theme(CafeTycoonTheme.THEME_NAME)
 public class CafeTycoonUI extends UI {

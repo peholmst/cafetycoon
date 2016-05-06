@@ -1,5 +1,6 @@
 package org.vaadin.samples.cafetycoon.domain;
 
+@SuppressWarnings("serial")
 public class Employee extends BaseEntity {
 
     private final String name;

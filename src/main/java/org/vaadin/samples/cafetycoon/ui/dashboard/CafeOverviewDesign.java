@@ -24,7 +24,7 @@ import org.vaadin.samples.cafetycoon.ui.dashboard.components.MessageBoard;
 public class CafeOverviewDesign extends VerticalLayout {
 	protected Label cafeName;
 	protected Label cafeAddress;
-	protected Label outOfStock;
+	protected Label status;
 	protected MessageBoard personnel;
 	protected Grid salesData;
 	protected Chart beanStock;

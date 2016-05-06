@@ -8,15 +8,15 @@
  <body> 
   <vaadin-vertical-layout style-name="cafe-overview hidden" spacing width="400px" height-full margin> 
    <vaadin-horizontal-layout width-full> 
-    <vaadin-vertical-layout size-auto> 
+    <vaadin-vertical-layout :expand> 
      <vaadin-label style-name="cafe-name" size-auto plain-text _id="cafeName">
        Cafe Name 
      </vaadin-label> 
-     <vaadin-label style-name="cafe-address" size-auto plain-text _id="cafeAddress">
+     <vaadin-label style-name="cafe-address" plain-text _id="cafeAddress">
        Cafe address 
      </vaadin-label> 
     </vaadin-vertical-layout> 
-    <vaadin-label style-name="out-of-stock" size-auto plain-text _id="outOfStock" :middle :right>
+    <vaadin-label style-name="out-of-stock" size-auto plain-text _id="status" :middle :right>
       OUT OF STOCK 
     </vaadin-label> 
    </vaadin-horizontal-layout> 

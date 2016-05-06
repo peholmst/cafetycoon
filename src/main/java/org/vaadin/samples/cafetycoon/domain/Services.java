@@ -23,8 +23,10 @@ public class Services implements ServletContextListener {
     private CafeStatusService cafeStatusService;
     private SalesService salesService;
     private BalanceService balanceService;
+    private StaffMessageService staffMessageService;
 
     private SalesGenerator salesGenerator;
+    private StaffMessageGenerator staffMessageGenerator;
 
     public EventBus getEventBus() {
         return eventBus;
@@ -57,6 +59,10 @@ public class Services implements ServletContextListener {
     public EmployeeRepository getEmployeeRepository() {
         return employeeRepository;
     }
+    
+    public StaffMessageService getStaffMessageService() {
+		return staffMessageService;
+	}
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -68,18 +74,26 @@ public class Services implements ServletContextListener {
 
         stockService = new StockService(eventBus);
         // Set up initial stock
-        cafeRepository.getCafes().forEach(cafe -> stockService.restock(cafe, new BigDecimal("500")));
+        cafeRepository.getCafes().forEach(cafe -> stockService.restock(cafe, new BigDecimal("300")));
 
         cafeStatusService = new CafeStatusService(eventBus, coffeeDrinkRepository, cafeRepository, stockService);
         salesService = new SalesService(eventBus, stockService);
         balanceService = new BalanceService(eventBus);
+        staffMessageService = new StaffMessageService(eventBus);
 
         salesGenerator = new SalesGenerator(cafeRepository, coffeeDrinkRepository, salesService);
+        salesGenerator.start();
+        
+        staffMessageGenerator = new StaffMessageGenerator(employeeRepository, staffMessageService);
+        staffMessageGenerator.start();
+        
         INSTANCE = this;
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+    	staffMessageGenerator.stop();
+    	salesGenerator.stop();
     }
 
     public static Services getInstance() {

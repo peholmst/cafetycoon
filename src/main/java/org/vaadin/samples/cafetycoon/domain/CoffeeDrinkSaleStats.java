@@ -5,6 +5,7 @@ import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@SuppressWarnings("serial")
 public class CoffeeDrinkSaleStats implements Serializable {
 
     private final CoffeeDrink drink;

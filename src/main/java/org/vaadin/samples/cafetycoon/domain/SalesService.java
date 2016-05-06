@@ -87,6 +87,7 @@ public class SalesService {
         return builderMap.values().stream().map(CoffeeDrinkSaleStats.Builder::build).collect(Collectors.toList());
     }
 
-    public static class OutOfStockException extends Exception {
+    @SuppressWarnings("serial")
+	public static class OutOfStockException extends Exception {
     }
 }
