@@ -1,11 +1,9 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.vaadin.samples.cafetycoon.domain.Cafe;
 import org.vaadin.samples.cafetycoon.domain.CafeStatus;
-import org.vaadin.samples.cafetycoon.domain.Services;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeOverviewModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
 import org.vaadin.samples.cafetycoon.ui.utils.EventContainerDataSeriesFactory;
@@ -23,6 +21,7 @@ public class CafeOverview extends CafeOverviewDesign
 		implements CafeSelectionModel.Observer, CafeOverviewModel.Observer {
 
 	private CafeSelectionModel cafeSelectionModel;
+	private CafeOverviewModel model;
 
 	public CafeOverview() {
 		restock50.addClickListener(this::restock50);
@@ -67,6 +66,7 @@ public class CafeOverview extends CafeOverviewDesign
 
 	@Override
 	public void setCafeOverviewModel(CafeOverviewModel model) {
+		this.model = model;
 		// We're only setting this once and the model and the component have the
 		// same scope -> no need to clean up
 
@@ -101,8 +101,7 @@ public class CafeOverview extends CafeOverviewDesign
 			}
 		});
 		
-		model.currentStatus().addValueChangeListener(this::statusChanged);
-		
+		model.currentStatus().addValueChangeListener(this::statusChanged);		
 	}
 
 	private void statusChanged(Property.ValueChangeEvent event) {
@@ -121,21 +120,14 @@ public class CafeOverview extends CafeOverviewDesign
 	}
 	
 	private void restock50(Button.ClickEvent event) {
-		restock(50);
+		model.restock(50);
 	}
 
 	private void restock100(Button.ClickEvent event) {
-		restock(100);
+		model.restock(100);
 	}
 
 	private void restock200(Button.ClickEvent event) {
-		restock(200);
-	}
-
-	private void restock(int amount) {
-		Cafe cafe = cafeSelectionModel.selection().getValue();
-		if (cafe != null) {
-			Services.getInstance().getStockService().restock(cafe, new BigDecimal(amount));
-		}
+		model.restock(200);
 	}
 }

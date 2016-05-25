@@ -100,6 +100,5 @@ public class CafeStatusService {
         Instant instant = latestSales.get(cafe);
         return instant != null && Duration.between(instant, ClockProvider.getClock().instant())
             .getSeconds() < SERVING_COFFEE_DURATION_SECONDS;
-    }
-
+    }    
 }

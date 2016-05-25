@@ -10,13 +10,16 @@ import java.util.Set;
 
 import org.vaadin.samples.cafetycoon.domain.Cafe;
 import org.vaadin.samples.cafetycoon.domain.CafeStatus;
+import org.vaadin.samples.cafetycoon.domain.CafeStatusService;
 import org.vaadin.samples.cafetycoon.domain.CoffeeDrink;
 import org.vaadin.samples.cafetycoon.domain.CoffeeDrinkSaleStats;
-import org.vaadin.samples.cafetycoon.domain.Services;
+import org.vaadin.samples.cafetycoon.domain.ServiceProvider;
 import org.vaadin.samples.cafetycoon.domain.events.CafeStatusChangedEvent;
 import org.vaadin.samples.cafetycoon.domain.events.RestockEvent;
 import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
 import org.vaadin.samples.cafetycoon.domain.events.StockChangeEvent;
+import org.vaadin.samples.cafetycoon.domain.StockService;
+import org.vaadin.samples.cafetycoon.domain.SalesService;
 import org.vaadin.samples.cafetycoon.ui.utils.EventContainer;
 
 import com.google.common.eventbus.Subscribe;
@@ -35,9 +38,18 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 	public static final String COL_INCOME = "Income";
 
 	private CafeSelectionModel selectionModel;
+	private final ServiceProvider<StockService> stockService;
+	private final ServiceProvider<SalesService> salesService;
+	private final ServiceProvider<CafeStatusService> cafeStatusService;
 	private final EventContainer<StockChangeEvent> beanStockChanges24h = new EventContainer<>();
 	private final IndexedContainer salesData24h = createSalesDataContainer();
 	private final ObjectProperty<CafeStatus> currentStatus = new ObjectProperty<>(CafeStatus.UNKNOWN, CafeStatus.class);
+	
+	public CafeOverviewModel(ServiceProvider<StockService> stockService, ServiceProvider<SalesService> salesService, ServiceProvider<CafeStatusService> cafeStatusService) {
+		this.stockService = stockService;
+		this.salesService = salesService;
+		this.cafeStatusService = cafeStatusService;
+	}
 	
 	private IndexedContainer createSalesDataContainer() {
 		IndexedContainer container = new IndexedContainer();
@@ -88,7 +100,7 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 	private void updateStatus() {
 		Cafe cafe = selectionModel.selection().getValue();
 		if (cafe != null) {
-			currentStatus.setValue(Services.getInstance().getCafeStatusService().getCurrentStatus(cafe));
+			currentStatus.setValue(cafeStatusService.get().getCurrentStatus(cafe));
 		} else {
 			currentStatus.setValue(CafeStatus.UNKNOWN);
 		}
@@ -98,7 +110,7 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 		Cafe cafe = selectionModel.selection().getValue();
 		List<StockChangeEvent> stockChanges;
 		if (cafe != null) {
-			stockChanges = new ArrayList<>(Services.getInstance().getStockService().get24hStockChangeEvents(cafe));
+			stockChanges = new ArrayList<>(stockService.get().get24hStockChangeEvents(cafe));
 		} else {
 			stockChanges = Collections.emptyList();
 		}
@@ -110,7 +122,7 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 		Cafe cafe = selectionModel.selection().getValue();
 		List<CoffeeDrinkSaleStats> saleStats;
 		if (cafe != null) {
-			saleStats = Services.getInstance().getSalesService().get24hSaleStats(cafe);
+			saleStats = salesService.get().get24hSaleStats(cafe);
 		} else {
 			saleStats = Collections.emptyList();
 		}
@@ -146,6 +158,13 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 
 	private void cafeSelectionChanged(Property.ValueChangeEvent event) {
 		access(this::updateBeanStock, this::updateSalesData, this::updateStatus);
+	}
+	
+	public void restock(int amount) {
+		Cafe cafe = selectionModel.selection().getValue();
+		if (cafe != null) {
+			stockService.get().restock(cafe, new BigDecimal(amount));
+		}
 	}
 
 	public interface Observer {

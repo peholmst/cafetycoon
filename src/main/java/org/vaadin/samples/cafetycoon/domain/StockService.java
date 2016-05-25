@@ -60,5 +60,5 @@ public class StockService {
             stockChangeEvents24h.put(cafe, cache);
         }
         return cache;
-    }
+    }    
 }

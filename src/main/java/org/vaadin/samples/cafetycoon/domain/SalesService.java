@@ -89,5 +89,5 @@ public class SalesService {
 
     @SuppressWarnings("serial")
 	public static class OutOfStockException extends Exception {
-    }
+    }    
 }

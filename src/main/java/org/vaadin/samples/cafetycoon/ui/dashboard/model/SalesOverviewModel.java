@@ -2,9 +2,13 @@ package org.vaadin.samples.cafetycoon.ui.dashboard.model;
 
 import java.math.BigDecimal;
 
+import org.vaadin.samples.cafetycoon.domain.BalanceService;
 import org.vaadin.samples.cafetycoon.domain.Cafe;
+import org.vaadin.samples.cafetycoon.domain.CafeRepository;
 import org.vaadin.samples.cafetycoon.domain.CafeStatus;
-import org.vaadin.samples.cafetycoon.domain.Services;
+import org.vaadin.samples.cafetycoon.domain.CafeStatusService;
+import org.vaadin.samples.cafetycoon.domain.SalesService;
+import org.vaadin.samples.cafetycoon.domain.ServiceProvider;
 import org.vaadin.samples.cafetycoon.domain.events.CafeStatusChangedEvent;
 import org.vaadin.samples.cafetycoon.domain.events.RestockEvent;
 import org.vaadin.samples.cafetycoon.domain.events.SaleEvent;
@@ -26,11 +30,22 @@ public class SalesOverviewModel extends AbstractModel {
 	private final ObjectProperty<BigDecimal> income24h = new ObjectProperty<>(BigDecimal.ZERO, BigDecimal.class);
 	private final IndexedContainer cafes = new IndexedContainer();
 
+	private final ServiceProvider<CafeStatusService> cafeStatusService;
+	private final ServiceProvider<SalesService> salesService;
+	private final ServiceProvider<BalanceService> balanceService;
+	private final ServiceProvider<CafeRepository> cafeRepository;
+	
 	public interface Observer {
 		void setSalesOverviewModel(SalesOverviewModel model);
 	}
 	
-	public SalesOverviewModel() {
+	public SalesOverviewModel(ServiceProvider<CafeStatusService> cafeStatusService, ServiceProvider<SalesService> salesService,
+			ServiceProvider<BalanceService> balanceService, ServiceProvider<CafeRepository> cafeRepository) {
+		this.cafeStatusService = cafeStatusService;
+		this.salesService = salesService;
+		this.balanceService = balanceService;
+		this.cafeRepository = cafeRepository;
+		
 		cafes.addContainerProperty(COL_CAFE, String.class, "");
 		cafes.addContainerProperty(COL_24INCOME, BigDecimal.class, BigDecimal.ZERO);
 		cafes.addContainerProperty(COL_STATUS, CafeStatus.class, null);
@@ -79,7 +94,7 @@ public class SalesOverviewModel extends AbstractModel {
 	}
 
 	private void updateCafes() {
-		Services.getInstance().getCafeRepository().getCafes().forEach(this::updateCafe);
+		cafeRepository.get().getCafes().forEach(this::updateCafe);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -89,13 +104,13 @@ public class SalesOverviewModel extends AbstractModel {
 			cafeItem = cafes.addItem(cafe);
 			cafeItem.getItemProperty(COL_CAFE).setValue(cafe.getName());
 		}
-		cafeItem.getItemProperty(COL_24INCOME).setValue(Services.getInstance().getSalesService().get24hIncome(cafe));
+		cafeItem.getItemProperty(COL_24INCOME).setValue(salesService.get().get24hIncome(cafe));
 		cafeItem.getItemProperty(COL_STATUS)
-				.setValue(Services.getInstance().getCafeStatusService().getCurrentStatus(cafe));
+				.setValue(cafeStatusService.get().getCurrentStatus(cafe));
 	}
 
 	private void updateBalances() {
-		balance.setValue(Services.getInstance().getBalanceService().getCurrentTotalBalance());
-		income24h.setValue(Services.getInstance().getSalesService().getTotal24hIncome());
+		balance.setValue(balanceService.get().getCurrentTotalBalance());
+		income24h.setValue(salesService.get().getTotal24hIncome());
 	}
 }

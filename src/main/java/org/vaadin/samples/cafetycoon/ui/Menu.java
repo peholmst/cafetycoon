@@ -1,4 +1,4 @@
-package org.vaadin.samples.cafetycoon.ui.components;
+package org.vaadin.samples.cafetycoon.ui;
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Button;
