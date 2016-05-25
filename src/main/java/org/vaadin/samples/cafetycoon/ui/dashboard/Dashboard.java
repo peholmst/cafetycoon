@@ -1,11 +1,14 @@
 package org.vaadin.samples.cafetycoon.ui.dashboard;
 
+import org.vaadin.samples.cafetycoon.domain.ServiceProvider;
 import org.vaadin.samples.cafetycoon.domain.Services;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeOverviewModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.PersonnelModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.SalesOverviewModel;
 import org.vaadin.samples.cafetycoon.ui.utils.TitledElement;
 
+import com.google.common.eventbus.EventBus;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
@@ -17,6 +20,7 @@ public class Dashboard extends DashboardDesign implements View, TitledElement {
 	private SalesOverviewModel salesOverviewModel;
 	private CafeSelectionModel cafeSelectionModel;
 	private CafeOverviewModel cafeOverviewModel;
+	private PersonnelModel personnelModel;
 
 	public Dashboard() {
 		// Since we're not using a dependency injection framework, we have to
@@ -41,17 +45,24 @@ public class Dashboard extends DashboardDesign implements View, TitledElement {
 		cafeOverviewModel = new CafeOverviewModel(s::getStockService, s::getSalesService, s::getCafeStatusService);
 		cafeOverviewModel.setCafeSelectionModel(cafeSelectionModel);
 		cafeOverview.setCafeOverviewModel(cafeOverviewModel);
+		
+		personnelModel = new PersonnelModel(s::getEmployeeRepository);
+		personnelModel.setCafeSelectionModel(cafeSelectionModel);
+		cafeOverview.setPersonnelModel(personnelModel);
 	}
 
 	@Override
 	public void attach() {
 		super.attach();
-		salesOverviewModel.attach(getUI(), Services.getInstance()::getEventBus);
-		cafeOverviewModel.attach(getUI(), Services.getInstance()::getEventBus);
+		ServiceProvider<EventBus> eventBus = Services.getInstance()::getEventBus;
+		salesOverviewModel.attach(getUI(), eventBus);
+		cafeOverviewModel.attach(getUI(), eventBus);
+		personnelModel.attach(getUI(), eventBus);
 	}
 
 	@Override
 	public void detach() {
+		personnelModel.detach();
 		cafeOverviewModel.detach();
 		salesOverviewModel.detach();
 		super.detach();

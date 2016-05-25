@@ -6,6 +6,7 @@ import org.vaadin.samples.cafetycoon.domain.Cafe;
 import org.vaadin.samples.cafetycoon.domain.CafeStatus;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeOverviewModel;
 import org.vaadin.samples.cafetycoon.ui.dashboard.model.CafeSelectionModel;
+import org.vaadin.samples.cafetycoon.ui.dashboard.model.PersonnelModel;
 import org.vaadin.samples.cafetycoon.ui.utils.EventContainerDataSeriesFactory;
 import org.vaadin.samples.cafetycoon.ui.utils.MoneyConverter;
 
@@ -18,7 +19,7 @@ import com.vaadin.ui.Grid;
 
 @SuppressWarnings("serial")
 public class CafeOverview extends CafeOverviewDesign
-		implements CafeSelectionModel.Observer, CafeOverviewModel.Observer {
+		implements CafeSelectionModel.Observer, CafeOverviewModel.Observer, PersonnelModel.Observer {
 
 	private CafeSelectionModel cafeSelectionModel;
 	private CafeOverviewModel model;
@@ -129,5 +130,10 @@ public class CafeOverview extends CafeOverviewDesign
 
 	private void restock200(Button.ClickEvent event) {
 		model.restock(200);
+	}
+
+	@Override
+	public void setPersonnelModel(PersonnelModel model) {
+		personnel.setPersonnelModel(model);
 	}
 }

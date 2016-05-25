@@ -14,6 +14,10 @@ public abstract class AbstractModel implements Serializable {
 
 	private UI ui;
 	private ServiceProvider<EventBus> eventBus;
+	
+	// One this that is missing from this implementation is the handling of
+	// event bus registration/unregistration when the model is deserialized/serialized.
+	// You only need this if you want to support session replication.
 
 	public void attach(UI ui, ServiceProvider<EventBus> eventBus) {
 		this.ui = ui;

@@ -194,6 +194,21 @@ $v-font-size: 14px;
       color: #FFFFFF;
       padding: 5px;
     }     
+    .employee {
+       padding: 5px;
+    
+      .employee-picture {
+        width:64px;
+        height:64px;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto;
+      }
+      .employee-name {
+        display: block;
+        text-align: center;
+      }
+    }
     .restock-button {
       width: 100%;
       color: white;

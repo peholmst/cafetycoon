@@ -60,10 +60,6 @@ public class CafeOverviewModel extends AbstractModel implements CafeSelectionMod
 		return container;
 	}
 
-	public Indexed messages() {
-		return null; // TODO Implement me!
-	}
-
 	public Indexed salesData24h() {
 		return salesData24h;
 	}
