@@ -4,6 +4,7 @@ import org.vaadin.samples.cafetycoon.domain.BaseDomainEvent;
 import org.vaadin.samples.cafetycoon.domain.Cafe;
 import org.vaadin.samples.cafetycoon.domain.CafeStatus;
 
+@SuppressWarnings("serial")
 public class CafeStatusChangedEvent extends BaseDomainEvent {
 
     private final Cafe cafe;

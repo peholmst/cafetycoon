@@ -5,6 +5,7 @@ import org.vaadin.samples.cafetycoon.domain.Cafe;
 
 import java.math.BigDecimal;
 
+@SuppressWarnings("serial")
 public class RestockEvent extends BaseDomainEvent {
 
     private final Cafe cafe;

@@ -5,6 +5,7 @@ import org.vaadin.samples.cafetycoon.domain.Cafe;
 
 import java.math.BigDecimal;
 
+@SuppressWarnings("serial")
 public class StockChangeEvent extends BaseDomainEvent {
 
     private final BigDecimal currentStock;

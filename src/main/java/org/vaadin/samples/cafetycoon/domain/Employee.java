@@ -24,4 +24,9 @@ public class Employee extends BaseEntity {
     public Cafe getCafe() {
         return cafe;
     }
+    
+    @Override
+    public String toString() {
+        return String.format("Employee{name='%s', cafe='%s'}", name, cafe);
+    }
 }

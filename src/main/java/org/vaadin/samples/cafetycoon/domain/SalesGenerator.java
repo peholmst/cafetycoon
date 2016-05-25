@@ -1,8 +1,5 @@
 package org.vaadin.samples.cafetycoon.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,8 +45,8 @@ public class SalesGenerator {
         if (rnd.nextInt(3) > 0) {
             return;
         }
-        Cafe cafe = pickRandom(cafeRepository.getCafes());
-        CoffeeDrink drink = pickRandom(coffeeDrinkRepository.getCoffeeDrinks());
+        Cafe cafe = RandomUtils.pickRandom(cafeRepository.getCafes());
+        CoffeeDrink drink = RandomUtils.pickRandom(coffeeDrinkRepository.getCoffeeDrinks());
         int qty = rnd.nextInt(10);
         LOGGER.info("Generating sale, cafe = {}, drink = {}, qty = {}", new Object[] { cafe, drink, qty });
         try {
@@ -60,15 +57,5 @@ public class SalesGenerator {
             LOGGER.error("An error occurred while generating sale", ex);
             // Don't throw it
         }
-    }
-
-    private <T> T pickRandom(Collection<T> items) {
-        List<T> itemList;
-        if (items instanceof List) {
-            itemList = (List<T>) items;
-        } else {
-            itemList = new ArrayList<>(items);
-        }
-        return itemList.get(rnd.nextInt(itemList.size()));
     }
 }

@@ -3,8 +3,9 @@ package org.vaadin.samples.cafetycoon.domain;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -15,22 +16,28 @@ import javax.ws.rs.core.MediaType;
 
 public class EmployeeRepository {
 
-    private final List<Employee> employees;
+	private final Map<Cafe, List<Employee>> employees = new HashMap<>();
+	private final List<Employee> allEmployees = new ArrayList<>();
     private final Client client = ClientBuilder.newClient();
 
     public EmployeeRepository(CafeRepository cafeRepository) {
-        List<Employee> employees = new ArrayList<>();
-        employees
-            .addAll(cafeRepository.getCafes().stream().map(this::createEmployeeFromRest).collect(Collectors.toList()));
-        this.employees = Collections.unmodifiableList(employees);
+    	cafeRepository.getCafes().forEach(cafe -> {
+    		List<Employee> list = new ArrayList<>();
+    		employees.put(cafe, list);
+    		for (int i = 0; i < 3; ++i) {
+    			Employee employee = createEmployeeFromRest(cafe);
+    			list.add(employee);
+    			allEmployees.add(employee);
+    		}
+    	});
     }
 
     public List<Employee> getEmployees() {
-        return employees;
+    	return Collections.unmodifiableList(allEmployees);
     }
     
     public List<Employee> getEmployeesForCafe(Cafe cafe) {
-    	return Collections.emptyList(); // TODO Implement me!
+    	return Collections.unmodifiableList(employees.getOrDefault(cafe, Collections.emptyList()));
     }
 
     private Employee createEmployeeFromRest(Cafe cafe) {
