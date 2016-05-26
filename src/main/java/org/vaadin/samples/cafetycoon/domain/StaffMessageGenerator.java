@@ -50,7 +50,7 @@ public class StaffMessageGenerator {
 	public synchronized void start() {
 		if (executorService == null) {
 			executorService = Executors.newSingleThreadScheduledExecutor();
-			executorService.scheduleWithFixedDelay(this::generateMessage, 10, 10, TimeUnit.SECONDS);
+			executorService.scheduleWithFixedDelay(this::generateMessage, 5, 5, TimeUnit.SECONDS);
 		}
 	}
 	

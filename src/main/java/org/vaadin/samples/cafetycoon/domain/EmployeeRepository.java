@@ -47,7 +47,6 @@ public class EmployeeRepository {
             JsonObject json = reader.readObject();
             String username = json.getString("username");
             String image = json.getJsonObject("image_urls").getString("normal");
-            System.out.println(image);
             return new Employee(username, image, cafe);
         }
     }

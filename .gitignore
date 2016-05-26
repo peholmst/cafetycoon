@@ -10,3 +10,5 @@ target/
 gwt-unitCache/
 widgetsets/
 styles.scss.cache
+styles.css
+

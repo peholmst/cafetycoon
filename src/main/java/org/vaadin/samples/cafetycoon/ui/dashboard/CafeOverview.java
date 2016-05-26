@@ -51,7 +51,6 @@ public class CafeOverview extends CafeOverviewDesign
 			show();
 			cafeName.setValue(cafe.getName());
 			cafeAddress.setValue(cafe.getAddress());
-			//beanStock.drawChart();
 		}
 	}
 
@@ -109,11 +108,11 @@ public class CafeOverview extends CafeOverviewDesign
 		CafeStatus newStatus = event == null ? CafeStatus.UNKNOWN :  (CafeStatus) event.getProperty().getValue();
 		if (newStatus.equals(CafeStatus.OUT_OF_STOCK)) {
 			status.setValue("OUT OF STOCK");
-			status.addStyleName("out-of-stock");
+			status.setStyleName("out-of-stock");
 			status.setVisible(true);
 		} else if (newStatus.equals(CafeStatus.SERVING_COFFEE)) {
 			status.setValue("SERVING COFFEE");
-			status.addStyleName("serving-coffee");
+			status.setStyleName("serving-coffee");
 			status.setVisible(true);
 		} else {
 			status.setVisible(false);
