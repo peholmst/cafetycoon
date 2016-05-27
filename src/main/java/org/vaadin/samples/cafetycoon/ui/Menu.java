@@ -8,11 +8,18 @@ import org.vaadin.samples.cafetycoon.ui.dashboard.Dashboard;
 import org.vaadin.samples.cafetycoon.ui.theme.CafeTycoonTheme;
 import org.vaadin.teemu.VaadinIcons;
 
+/**
+ * Main menu of the application, built using the Valo menu styles. In this
+ * example application, the menu is statically populated. In a real application,
+ * you would probably want to use some kind of dynamic registration mechanism so
+ * that new items can be automatically added to the menu when new modules are
+ * added to the application.
+ */
 @SuppressWarnings("serial")
 public class Menu extends CssLayout {
 
 	private boolean hidden = true;
-	
+
 	public Menu() {
 		addStyleName("menu");
 		setPrimaryStyleName(CafeTycoonTheme.MENU_ROOT);
@@ -51,7 +58,7 @@ public class Menu extends CssLayout {
 		addStyleName("hidden");
 		hidden = true;
 	}
-	
+
 	public boolean isHidden() {
 		return hidden;
 	}

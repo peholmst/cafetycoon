@@ -20,6 +20,12 @@ import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapMarker;
 import com.vaadin.ui.CustomComponent;
 
+/**
+ * A custom component that shows the location and status of all the cafes on a
+ * Google map. You can also select the current cafe by clicking on it on the
+ * map. This component observes a {@link SalesOverviewModel} and a
+ * {@link CafeSelectionModel}.
+ */
 @SuppressWarnings("serial")
 public class CafeMap extends CustomComponent implements SalesOverviewModel.Observer, CafeSelectionModel.Observer {
 
@@ -40,7 +46,8 @@ public class CafeMap extends CustomComponent implements SalesOverviewModel.Obser
 
 	@Override
 	public void setSalesOverviewModel(SalesOverviewModel model) {
-		// We're only setting this once and the model and the component have the same scope -> no need to clean up
+		// We're only setting this once and the model and the component have the
+		// same scope -> no need to clean up
 		salesOverviewModel = Objects.requireNonNull(model);
 		((ItemSetChangeNotifier) model.cafes()).addItemSetChangeListener(this::cafesChanged);
 		refreshAll();
@@ -48,7 +55,8 @@ public class CafeMap extends CustomComponent implements SalesOverviewModel.Obser
 
 	@Override
 	public void setCafeSelectionModel(CafeSelectionModel model) {
-		// We're only setting this once and the model and the component have the same scope -> no need to clean up
+		// We're only setting this once and the model and the component have the
+		// same scope -> no need to clean up
 		cafeSelectionModel = Objects.requireNonNull(model);
 		model.selection().addValueChangeListener(this::cafeSelected);
 	}
@@ -91,7 +99,9 @@ public class CafeMap extends CustomComponent implements SalesOverviewModel.Obser
 		if (mapMarker == null) {
 			return Optional.empty();
 		}
-		return markers.stream().filter(marker -> marker.getMarker().isPresent() && mapMarker.equals(marker.getMarker().get())).findFirst();
+		return markers.stream()
+				.filter(marker -> marker.getMarker().isPresent() && mapMarker.equals(marker.getMarker().get()))
+				.findFirst();
 	}
 
 	class Marker implements Serializable {
@@ -131,7 +141,7 @@ public class CafeMap extends CustomComponent implements SalesOverviewModel.Obser
 		Cafe getCafe() {
 			return cafe;
 		}
-		
+
 		void dispose() {
 			if (marker != null) {
 				map.removeMarker(marker);

@@ -12,6 +12,12 @@ import com.google.common.eventbus.EventBus;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 
+/**
+ * Dashboard view (currently also the only view in this sample application). The
+ * actual UI comes from a declarative design so this class is only responsible
+ * for creating and wiring up the different models. With a dependency injection
+ * framework, this class would be even smaller.
+ */
 @SuppressWarnings("serial")
 public class Dashboard extends DashboardDesign implements View, TitledElement {
 
@@ -26,6 +32,7 @@ public class Dashboard extends DashboardDesign implements View, TitledElement {
 		// Since we're not using a dependency injection framework, we have to
 		// wire up everything manually. In this case, we're simply using method
 		// pointers as service providers.
+		
 		// In a real application, you would probably want to use more advanced
 		// service providers that serialize and deserialize properly, check for
 		// the availability of the backend service, etc.
@@ -45,7 +52,7 @@ public class Dashboard extends DashboardDesign implements View, TitledElement {
 		cafeOverviewModel = new CafeOverviewModel(s::getStockService, s::getSalesService, s::getCafeStatusService);
 		cafeOverviewModel.setCafeSelectionModel(cafeSelectionModel);
 		cafeOverview.setCafeOverviewModel(cafeOverviewModel);
-		
+
 		personnelModel = new PersonnelModel(s::getEmployeeRepository);
 		personnelModel.setCafeSelectionModel(cafeSelectionModel);
 		cafeOverview.setPersonnelModel(personnelModel);

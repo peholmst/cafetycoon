@@ -16,6 +16,9 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.UI;
 
+/**
+ * Main UI for the Cafe Tycoon application.
+ */
 @SuppressWarnings("serial")
 @Push(transport = Transport.WEBSOCKET_XHR)
 @Widgetset("org.vaadin.samples.cafetycoon.CafeTycoonWidgetset")

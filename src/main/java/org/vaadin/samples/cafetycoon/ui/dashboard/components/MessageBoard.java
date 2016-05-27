@@ -19,6 +19,10 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 
+/**
+ * A custom component that shows the employees of a cafe and displays any
+ * messages that they send. This component observes a {@link PersonnelModel}.
+ */
 @SuppressWarnings("serial")
 public class MessageBoard extends CustomComponent implements PersonnelModel.Observer {
 

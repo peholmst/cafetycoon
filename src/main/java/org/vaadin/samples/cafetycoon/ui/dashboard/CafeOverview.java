@@ -17,6 +17,10 @@ import com.vaadin.data.Property;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 
+/**
+ * The cafe overview is a part of the {@link Dashboard} view that shows the
+ * contents of the {@link CafeOverviewModel} and the {@link PersonnelModel}.
+ */
 @SuppressWarnings("serial")
 public class CafeOverview extends CafeOverviewDesign
 		implements CafeSelectionModel.Observer, CafeOverviewModel.Observer, PersonnelModel.Observer {
@@ -28,7 +32,7 @@ public class CafeOverview extends CafeOverviewDesign
 		restock50.addClickListener(this::restock50);
 		restock100.addClickListener(this::restock100);
 		restock200.addClickListener(this::restock200);
-		
+
 		statusChanged(null);
 	}
 
@@ -100,12 +104,12 @@ public class CafeOverview extends CafeOverviewDesign
 				return null;
 			}
 		});
-		
-		model.currentStatus().addValueChangeListener(this::statusChanged);		
+
+		model.currentStatus().addValueChangeListener(this::statusChanged);
 	}
 
 	private void statusChanged(Property.ValueChangeEvent event) {
-		CafeStatus newStatus = event == null ? CafeStatus.UNKNOWN :  (CafeStatus) event.getProperty().getValue();
+		CafeStatus newStatus = event == null ? CafeStatus.UNKNOWN : (CafeStatus) event.getProperty().getValue();
 		if (newStatus.equals(CafeStatus.OUT_OF_STOCK)) {
 			status.setValue("OUT OF STOCK");
 			status.setStyleName("out-of-stock");
@@ -118,7 +122,7 @@ public class CafeOverview extends CafeOverviewDesign
 			status.setVisible(false);
 		}
 	}
-	
+
 	private void restock50(Button.ClickEvent event) {
 		model.restock(50);
 	}
